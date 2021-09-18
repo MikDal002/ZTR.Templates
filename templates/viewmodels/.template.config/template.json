@@ -1,0 +1,12 @@
+{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "Zaprogramuj To Raz!",
+    "classifications": [ "Common", "ViewModels", "Library" ],
+    "identity": "ZTR.ViewModelsTemplate.CSharp",
+    "name": "Program It Once core template",
+    "shortName": "ztr-viewmodels",
+    "tags": {
+      "language": "C#",
+      "type": "project"
+    }
+  }

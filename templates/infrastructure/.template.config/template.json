@@ -1,0 +1,12 @@
+{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "Zaprogramuj To Raz!",
+    "classifications": [ "Common", "Infrastructure", "Library" ],
+    "identity": "ZTR.InfrastructureTemplate.CSharp",
+    "name": "Program It Once infrastructure template",
+    "shortName": "ztr-infrastructure",
+    "tags": {
+      "language": "C#",
+      "type": "project"
+    }
+  }
