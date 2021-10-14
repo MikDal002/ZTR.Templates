@@ -10,7 +10,7 @@ namespace PersonComponent.Core
 {
     public static class InfrastructureInstaller
     {
-        public static void InstallPersonComponentCore(this IServiceCollection services)
+        public static void InstallPersonComponentInfrastructure(this IServiceCollection services)
         {
             // Here add your services from core
             // services.AddTransient<IPersonService, PersonService>();
