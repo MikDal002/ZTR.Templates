@@ -3,8 +3,9 @@
     "author": "Zaprogramuj To Raz!",
     "classifications": [ "Common", "ViewModels", "Library" ],
     "identity": "ZTR.ViewModelsTemplate.CSharp",
-    "name": "Program It Once core template",
+    "name": "Program It Once viewmodel template",
     "shortName": "ztr-viewmodels",
+    "sourceName": "PersonComponent",
     "tags": {
       "language": "C#",
       "type": "project"
