@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <PackageType>Template</PackageType>
-    <PackageVersion>1.1</PackageVersion>
+    <PackageVersion>1.2</PackageVersion>
     <PackageId>ZTR.Utilities.Templates</PackageId>
     <Title>Zaprogramuj to raz! Core template</Title>
     <Authors>Zaprogramuj to raz!</Authors>
