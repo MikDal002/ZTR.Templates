@@ -10,14 +10,16 @@ namespace ConsoleTemplate
     {
         static async Task Main(string[] args)
         {
-            var rootCommand = new RootCommand();
+            var anIntOption = new Option<int>("--an-int", getDefaultValue: () => 42, description: "Description 1");
+            var aStringOption = new Option<string>("--a-string");
+
+            var rootCommand = new RootCommand()
+            {
+                anIntOption, aStringOption,
+                new Command("subverb")
+            };
             rootCommand.Description = "Application description";
-            rootCommand.Add(new Option<int>("--an-int", getDefaultValue: () => 42, description: "Description 1"));
-            rootCommand.Add(new Option<string>("--a-string"));
-            rootCommand.Add(new Command("Subcommand"));
-
-            rootCommand.Handler = CommandHandler.Create<int, string, CancellationToken>(DoSomething);
-
+            rootCommand.SetHandler((int myInt, string myString, CancellationToken token) => DoSomething(myInt, myString, token), anIntOption, aStringOption);
 
             await rootCommand.InvokeAsync(args);
         }
