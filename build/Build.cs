@@ -1,10 +1,13 @@
 using Nuke.Common;
+using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
+using Nuke.Common.Tools.Git;
 using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Utilities.Collections;
+using Octokit;
 using Serilog;
 //using static Nuke.Common.IO.FileSystemTasks;
 
@@ -23,7 +26,7 @@ class Build : NukeBuild
 
     [Solution] readonly Solution Solution;
     [GitVersion] readonly GitVersion GitVersion;
-
+    [GitRepository] readonly GitRepository GitRepository;
 
     const string ProjectToBePublished = "ConsoleTemplate";
     AbsolutePath PublishedProjectAsZip =>
@@ -65,6 +68,7 @@ class Build : NukeBuild
 
     Target Publish => _ => _
         .DependsOn(Compile)
+        .OnlyWhenDynamic(() => GitRepository.IsOnMainOrMasterBranch() || GitRepository.IsOnDevelopBranch())
         .Executes(() =>
         {
             OutputDirectory.CreateOrCleanDirectory();
@@ -101,5 +105,19 @@ class Build : NukeBuild
                .EnableNoBuild()
                .SetProjectFile(Solution));
        });
+
+    Target CreateVersionLabel => _ => _
+        .TriggeredBy(Publish)
+        .Executes(() =>
+        {
+            Log.Information($"Pushing new tag about the version {GitVersion.FullSemVer}");
+
+
+            GitTasks.Git($"config --global user.email \"build@ourcompany.com\"");
+            GitTasks.Git($"config --global user.name \"Our Company Build\"");
+
+            GitTasks.Git($"tag -a {GitVersion.FullSemVer} -m \"Setting git tag on commit to '{GitVersion.FullSemVer}'\"");
+            GitTasks.Git($"push --set-upstream origin {GitVersion.FullSemVer}");
+        });
 
 }
