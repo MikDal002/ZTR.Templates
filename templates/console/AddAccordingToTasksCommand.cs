@@ -12,7 +12,7 @@ class AddAccordingToTasksCommand : Command
         AddOption(new Option<int?>("--limit", () => 4, "Quite long description."));
         AddOption(new Option<DirectoryInfo>("--directory", "desc") { IsRequired = true });
 
-        this.Handler = CommandHandler.Create(this.Execute);
+        Handler = CommandHandler.Create(this.Execute);
     }
 
     public Task<int> Execute(int? limit, DirectoryInfo katalogZdjec, int startowyEan)
