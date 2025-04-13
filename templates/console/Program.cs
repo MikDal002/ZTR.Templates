@@ -1,7 +1,7 @@
 ﻿using System;
 using System.CommandLine;
-using System.Threading;
 using System.Threading.Tasks;
+using Velopack;
 
 namespace ConsoleTemplate;
 
@@ -9,6 +9,11 @@ class Program
 {
     static async Task Main(string[] args)
     {
+        // Aktualizacja aplikacji
+        Velopack.VelopackApp.Build().Run();
+
+        await UpdateMyApp();
+
         var rootCommand = new RootCommand();
         rootCommand.Description = "<<Application description>>";
         rootCommand.AddCommand(new AddAccordingToTasksCommand());
@@ -16,8 +21,19 @@ class Program
         await rootCommand.InvokeAsync(args);
     }
 
-    public static void DoSomething(int anInt, string aString, CancellationToken token)
+    private static async Task UpdateMyApp()
     {
-        Console.WriteLine("Hello world!");
+        var mgr = new UpdateManager("https://frog02-20366.wykr.es/bee/downloads");
+
+        var newVersion = await mgr.CheckForUpdatesAsync();
+        if (newVersion is null) return;
+
+        var version = newVersion.ToString();
+        Console.WriteLine(version);
+
+        await mgr.DownloadUpdatesAsync(newVersion);
+
+        mgr.ApplyUpdatesAndRestart(newVersion);
+
     }
 }

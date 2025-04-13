@@ -25,12 +25,14 @@
       "type": "string",
       "enum": [
         "Clean",
+        "CleanVelopack",
         "Compile",
         "CreateVersionLabel",
+        "PackWithVelopack",
         "Publish",
+        "PublishToGithub",
         "Restore",
-        "Tests",
-        "ZipDirectory"
+        "Tests"
       ]
     },
     "Verbosity": {
@@ -112,9 +114,27 @@
             "Release"
           ]
         },
+        "OperationSystem": {
+          "type": "string",
+          "description": "System to build, deafults to current system. Change if you want to cross compile",
+          "enum": [
+            "Linux",
+            "Osx",
+            "Windows"
+          ]
+        },
         "Solution": {
           "type": "string",
           "description": "Path to a solution file that is automatically loaded"
+        },
+        "SystemArchitecture": {
+          "type": "string",
+          "description": "System architecture to build, deafults to current architecture. Change if you want to cross compile",
+          "enum": [
+            "Arm64",
+            "X64",
+            "x86"
+          ]
         }
       }
     },

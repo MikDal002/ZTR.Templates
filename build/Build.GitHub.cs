@@ -87,7 +87,7 @@ public partial class Build : NukeBuild
         var releaseAssetUpload = new ReleaseAssetUpload
         {
             ContentType = "application/x-binary",
-            FileName = $"{ProjectToBePublished}-{GitVersion.SemVer}",
+            FileName = $"{NameOfProjectToBePublished}-{GitVersion.SemVer}",
             RawData = File.OpenRead(asset)
         };
         var _ = GitHubTasks.GitHubClient.Repository.Release.UploadAsset(release, releaseAssetUpload).Result;
