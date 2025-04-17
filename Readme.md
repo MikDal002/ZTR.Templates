@@ -6,6 +6,12 @@ Download
 
 The newest package is available [on NuGet](https://buildstats.info/nuget/ZTR.Utilities.Templates).
 
+Generowanie kluczy SSH
+========
+
+W przypadku wysy³ania nowych wydañ na serwer za pomoc¹ SSH powinieneœ u¿ywaæ kluczy.
+Prosta instrukcja jak je generowaæ jest tutaj: https://wiki.mikr.us/uzywaj_kluczy_ssh/
+
 Krótko o projekcie
 ========
 

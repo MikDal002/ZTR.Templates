@@ -91,6 +91,7 @@ public partial class Build : NukeBuild
 
     Target Publish => _ => _
         .DependsOn(Compile)
+        .DependsOn(Tests)
         .Executes(() =>
         {
             PublishDirectory.CreateOrCleanDirectory();

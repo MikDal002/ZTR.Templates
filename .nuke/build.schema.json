@@ -28,11 +28,13 @@
         "CleanVelopack",
         "Compile",
         "CreateVersionLabel",
+        "DownloadServerToLocal",
         "PackWithVelopack",
         "Publish",
         "PublishToGithub",
         "Restore",
-        "Tests"
+        "Tests",
+        "UploadLocalToServer"
       ]
     },
     "Verbosity": {
@@ -114,6 +116,13 @@
             "Release"
           ]
         },
+        "DirectoryForReleases": {
+          "type": "string"
+        },
+        "MaxReleasesOnServer": {
+          "type": "integer",
+          "format": "int32"
+        },
         "OperationSystem": {
           "type": "string",
           "description": "System to build, deafults to current system. Change if you want to cross compile",
@@ -126,6 +135,16 @@
         "Solution": {
           "type": "string",
           "description": "Path to a solution file that is automatically loaded"
+        },
+        "SshPort": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "SshServer": {
+          "type": "string"
+        },
+        "SshUser": {
+          "type": "string"
         },
         "SystemArchitecture": {
           "type": "string",
