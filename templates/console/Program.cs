@@ -14,8 +14,7 @@ class Program
 
         await UpdateMyApp();
 
-        var rootCommand = new RootCommand();
-        rootCommand.Description = "<<Application description>>";
+        var rootCommand = new RootCommand { Description = "<<Application description>>" };
         rootCommand.AddCommand(new AddAccordingToTasksCommand());
 
         await rootCommand.InvokeAsync(args);
@@ -26,7 +25,10 @@ class Program
         var mgr = new UpdateManager("https://frog02-20366.wykr.es/bee/downloads");
 
         var newVersion = await mgr.CheckForUpdatesAsync();
-        if (newVersion is null) return;
+        if (newVersion is null)
+        {
+            return;
+        }
 
         var version = newVersion.ToString();
         Console.WriteLine(version);

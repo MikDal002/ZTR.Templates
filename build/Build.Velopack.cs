@@ -5,10 +5,6 @@ using Nuke.Common.IO;
 using Nuke.Common.Tooling;
 using Nuke.Common.Utilities;
 using Renci.SshNet;
-using Renci.SshNet.Sftp;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
 
 partial class Build
 {
@@ -78,6 +74,5 @@ partial class Build
             using var sshClient = new SshClient(SshConnectionInfo);
             sshClient.Connect();
             using var cmd = sshClient.RunCommand($"chmod 755 /var/www/html/{NameProjectDirectoryOnTheServer}/{DirectoryForReleases}'");
-
         });
 }
