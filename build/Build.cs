@@ -86,6 +86,7 @@ public partial class Build : NukeBuild
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion)
                 .SetRuntime(Runtime)
+                .SetTreatWarningsAsErrors(true)
                 .EnableNoRestore());
         });
 

@@ -50,7 +50,7 @@ partial class Build
         });
 
     Target DownloadServerToLocal => _ => _
-        .Executes(async () =>
+        .Executes(() =>
         {
             using var sshClient = new SshClient(SshConnectionInfo);
             sshClient.Connect();

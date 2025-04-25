@@ -1,41 +1,36 @@
-﻿using System;
-using System.CommandLine;
+﻿using Spectre.Console;
 using System.Threading.Tasks;
+using Spectre.Console.Cli;
 using Velopack;
 
 namespace ConsoleTemplate;
-
 class Program
 {
     static async Task Main(string[] args)
     {
-        // Aktualizacja aplikacji
-        Velopack.VelopackApp.Build().Run();
-
-        await UpdateMyApp();
-
-        var rootCommand = new RootCommand { Description = "<<Application description>>" };
-        rootCommand.AddCommand(new AddAccordingToTasksCommand());
-
-        await rootCommand.InvokeAsync(args);
-    }
-
-    private static async Task UpdateMyApp()
-    {
-        var mgr = new UpdateManager("https://frog02-20366.wykr.es/bee/downloads");
-
-        var newVersion = await mgr.CheckForUpdatesAsync();
-        if (newVersion is null)
+        // Update the application
+        VelopackApp.Build().Run();
+        
+        // Set up the command app
+        var app = new CommandApp();
+        // Register commands
+        app.Configure(config =>
         {
-            return;
-        }
+            #if DEBUG
+            config.ValidateExamples();
+            #endif   
+            
+            config.SetApplicationName("ConsoleTemplate");
+            config.AddCommand<AddAccordingToTasksCommand>("commandName");
+            config.AddCommand<VersionCommand>("version");
 
-        var version = newVersion.ToString();
-        Console.WriteLine(version);
+            config.SetExceptionHandler((ex, _) =>
+            {
+                AnsiConsole.WriteException(ex);
+                return -99;
+            });
 
-        await mgr.DownloadUpdatesAsync(newVersion);
-
-        mgr.ApplyUpdatesAndRestart(newVersion);
-
+        });
+        await app.RunAsync(args);
     }
 }
