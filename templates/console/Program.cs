@@ -1,6 +1,6 @@
 ﻿using Spectre.Console;
-using System.Threading.Tasks;
 using Spectre.Console.Cli;
+using System.Threading.Tasks;
 using Velopack;
 
 namespace ConsoleTemplate;
@@ -10,19 +10,21 @@ class Program
     {
         // Update the application
         VelopackApp.Build().Run();
-        
+
         // Set up the command app
-        var app = new CommandApp();
+        var app = new CommandApp(new TypeRegistrar());
+
         // Register commands
         app.Configure(config =>
         {
-            #if DEBUG
+#if DEBUG
             config.ValidateExamples();
-            #endif   
-            
+#endif
+
             config.SetApplicationName("ConsoleTemplate");
-            config.AddCommand<AddAccordingToTasksCommand>("commandName");
-            config.AddCommand<VersionCommand>("version");
+            config.AddCommand<ExampleCommand>("commandName");
+            config.AddCommand<VersionCommand>("version")
+                .WithExample("version", "--update");
 
             config.SetExceptionHandler((ex, _) =>
             {
@@ -31,6 +33,7 @@ class Program
             });
 
         });
+
         await app.RunAsync(args);
     }
 }

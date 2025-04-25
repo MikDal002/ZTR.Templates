@@ -2,7 +2,6 @@
 using Spectre.Console.Cli;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using Velopack;
 
 namespace ConsoleTemplate;
 
@@ -13,13 +12,11 @@ public class VersionCommandSettings : CommandSettings
     public bool Update { get; set; }
 }
 
-public class VersionCommand : AsyncCommand<VersionCommandSettings>
+public class VersionCommand(IUpdateService updateService) : AsyncCommand<VersionCommandSettings>
 {
     public override async Task<int> ExecuteAsync(CommandContext context, VersionCommandSettings settings)
     {
-        var mgr = new UpdateManager("https://frog02-20366.wykr.es/bee/downloads");
-
-        var currentVersion = mgr.CurrentVersion;
+        var currentVersion = updateService.GetCurrentVersion();
         if (currentVersion is not null)
         {
             AnsiConsole.MarkupLine($"[green]Current version: {currentVersion}[/]");
@@ -31,7 +28,7 @@ public class VersionCommand : AsyncCommand<VersionCommandSettings>
 
         var newVersion = await AnsiConsole.Status()
             .StartAsync("Checking for updates...",
-                async _ => await mgr.CheckForUpdatesAsync());
+                async _ => await updateService.CheckForUpdatesAsync());
         if (newVersion is null)
         {
             AnsiConsole.MarkupLine("[green]You are already using the latest version.[/]");
@@ -54,10 +51,9 @@ public class VersionCommand : AsyncCommand<VersionCommandSettings>
 
         await AnsiConsole.Status()
             .StartAsync("Downloading and applying updates...",
-                async _ => await mgr.DownloadUpdatesAsync(newVersion));
+                async _ => await updateService.DownloadAndApplyUpdatesAsync(newVersion));
 
         AnsiConsole.MarkupLine("[blue]The application will now exit to apply the updates.[/]");
-        mgr.ApplyUpdatesAndExit(newVersion);
 
         return 0;
     }

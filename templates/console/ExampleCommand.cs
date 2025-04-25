@@ -1,9 +1,9 @@
 ﻿using Spectre.Console;
+using Spectre.Console.Cli;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Threading.Tasks;
-using Spectre.Console.Cli;
-using System.Collections.Generic;
 
 namespace ConsoleTemplate;
 public class AddAccordingToTasksSettings : CommandSettings
@@ -17,16 +17,15 @@ public class AddAccordingToTasksSettings : CommandSettings
     public DirectoryInfo Directory { get; set; }
 }
 
-public class AddAccordingToTasksCommand : AsyncCommand<AddAccordingToTasksSettings>
+public class ExampleCommand : AsyncCommand<AddAccordingToTasksSettings>
 {
     public override Task<int> ExecuteAsync(CommandContext context, AddAccordingToTasksSettings settings)
     {
-        
         // Create a list of Items, apply separate styles to each
         var rows = new List<Text>(){
-            new Text($"Limit: {settings.Limit}", new Style(Color.Red, Color.Black)),
-            new Text($"Directory {settings.Directory}", new Style(Color.Green, Color.Black)),
-            new Text($"Leftovers {context.Remaining}", new Style(Color.Blue, Color.Black))
+            new($"Limit: {settings.Limit}", new(Color.Red, Color.Black)),
+            new($"Directory {settings.Directory}", new(Color.Green, Color.Black)),
+            new($"Leftovers {context.Remaining}", new(Color.Blue, Color.Black))
         };
 
         // Renders each item with own style
