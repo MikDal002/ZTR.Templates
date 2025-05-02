@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using NuGet.Versioning;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Velopack;
 
@@ -10,7 +11,7 @@ public interface IUpdateService
 {
     SemanticVersion? GetCurrentVersion();
     Task<UpdateInfo?> CheckForUpdatesAsync();
-    Task DownloadAndApplyUpdatesAsync(UpdateInfo newVersion);
+    Task DownloadAndApplyUpdatesAsync(UpdateInfo newVersion, CancellationToken cancellationToken = default);
 }
 
 public class UpdateService : IUpdateService // Removed primary constructor
@@ -27,7 +28,7 @@ public class UpdateService : IUpdateService // Removed primary constructor
             throw new InvalidOperationException("Update URL is not configured in appsettings.json under UpdateOptions section.");
         }
 
-        _updateManager = new UpdateManager(url);
+        _updateManager = new(url);
     }
 
     public SemanticVersion? GetCurrentVersion()
@@ -40,9 +41,10 @@ public class UpdateService : IUpdateService // Removed primary constructor
         return await _updateManager.CheckForUpdatesAsync();
     }
 
-    public async Task DownloadAndApplyUpdatesAsync(UpdateInfo newVersion)
+    public async Task DownloadAndApplyUpdatesAsync(UpdateInfo newVersion, CancellationToken cancellationToken = default)
     {
-        await _updateManager.DownloadUpdatesAsync(newVersion);
+        // Here we can get the action on progress, we should use it.
+        await _updateManager.DownloadUpdatesAsync(newVersion, cancelToken: cancellationToken);
         _updateManager.ApplyUpdatesAndRestart(newVersion);
     }
 }

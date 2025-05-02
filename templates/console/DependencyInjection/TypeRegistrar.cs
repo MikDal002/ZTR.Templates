@@ -1,12 +1,11 @@
-﻿using Microsoft.Extensions.Configuration; // Added
-using Microsoft.Extensions.DependencyInjection; // Correct namespace for .Configure<T>
-// using Microsoft.Extensions.Options.ConfigurationExtensions; // Removed incorrect using
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Spectre.Console.Cli;
 using System;
-using System.IO; // Added
-using ZtrTemplates.Configuration.Shared; // Added
+using System.IO;
+using ZtrTemplates.Configuration.Shared;
 
-namespace ConsoleTemplate.DependencyInjection; // Changed namespace to match folder structure
+namespace ConsoleTemplate.DependencyInjection;
 
 public sealed class TypeRegistrar : ITypeRegistrar
 {
@@ -18,7 +17,7 @@ public sealed class TypeRegistrar : ITypeRegistrar
 
         // --- Configuration Setup ---
         var configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory()) 
+            .SetBasePath(Directory.GetCurrentDirectory())
             // IF file doesn't exists run _build project first.
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .Build();

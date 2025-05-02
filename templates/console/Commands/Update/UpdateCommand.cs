@@ -1,6 +1,8 @@
-﻿using Spectre.Console;
+﻿using ConsoleTemplate.Commands.Base;
+using Spectre.Console;
 using Spectre.Console.Cli;
 using System.ComponentModel;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ConsoleTemplate;
@@ -12,9 +14,9 @@ public class VersionCommandSettings : CommandSettings
     public bool Update { get; set; }
 }
 
-public class UpdateCommand(IUpdateService updateService) : AsyncCommand<VersionCommandSettings>
+public class UpdateCommand(IUpdateService updateService) : CancellableAsyncCommand<VersionCommandSettings>
 {
-    public override async Task<int> ExecuteAsync(CommandContext context, VersionCommandSettings settings)
+    public override async Task<int> ExecuteAsync(CommandContext context, VersionCommandSettings settings, CancellationToken cancellationToken)
     {
         var currentVersion = updateService.GetCurrentVersion();
         if (currentVersion is not null)
@@ -51,7 +53,7 @@ public class UpdateCommand(IUpdateService updateService) : AsyncCommand<VersionC
 
         await AnsiConsole.Status()
             .StartAsync("Downloading and applying updates...",
-                async _ => await updateService.DownloadAndApplyUpdatesAsync(newVersion));
+                async _ => await updateService.DownloadAndApplyUpdatesAsync(newVersion, cancellationToken));
 
         AnsiConsole.MarkupLine("[blue]The application will now exit to apply the updates.[/]");
 

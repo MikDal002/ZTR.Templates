@@ -1,8 +1,10 @@
-﻿using Spectre.Console;
+﻿using ConsoleTemplate.Commands.Base;
+using Spectre.Console;
 using Spectre.Console.Cli;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ConsoleTemplate;
@@ -17,9 +19,9 @@ public class AddAccordingToTasksSettings : CommandSettings
     public DirectoryInfo Directory { get; set; }
 }
 
-public class ExampleCommand : AsyncCommand<AddAccordingToTasksSettings>
+public class ExampleCommand : CancellableAsyncCommand<AddAccordingToTasksSettings>
 {
-    public override Task<int> ExecuteAsync(CommandContext context, AddAccordingToTasksSettings settings)
+    public override Task<int> ExecuteAsync(CommandContext context, AddAccordingToTasksSettings settings, CancellationToken cancellationToken)
     {
         // Create a list of Items, apply separate styles to each
         var rows = new List<Text>(){
