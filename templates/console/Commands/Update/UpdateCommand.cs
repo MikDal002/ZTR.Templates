@@ -12,7 +12,7 @@ public class VersionCommandSettings : CommandSettings
     public bool Update { get; set; }
 }
 
-public class VersionCommand(IUpdateService updateService) : AsyncCommand<VersionCommandSettings>
+public class UpdateCommand(IUpdateService updateService) : AsyncCommand<VersionCommandSettings>
 {
     public override async Task<int> ExecuteAsync(CommandContext context, VersionCommandSettings settings)
     {

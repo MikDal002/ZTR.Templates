@@ -2,6 +2,7 @@
 using Spectre.Console.Cli;
 using System.Threading.Tasks;
 using Velopack;
+using ConsoleTemplate.DependencyInjection; // Added for TypeRegistrar namespace
 
 namespace ConsoleTemplate;
 class Program
@@ -23,7 +24,7 @@ class Program
 
             config.SetApplicationName("ConsoleTemplate");
             config.AddCommand<ExampleCommand>("commandName");
-            config.AddCommand<VersionCommand>("version")
+            config.AddCommand<UpdateCommand>("version")
                 .WithExample("version", "--update");
 
             config.SetExceptionHandler((ex, _) =>
