@@ -1,10 +1,13 @@
-﻿using Microsoft.Build.Utilities;
-using Microsoft.Identity.Client;
-using Nuke.Common;
+﻿using Nuke.Common;
 using Nuke.Common.IO;
 using Nuke.Common.Tooling;
 using Nuke.Common.Utilities;
 using Renci.SshNet;
+using Serilog;
+using System.IO;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using ZtrTemplates.Configuration.Shared;
 
 partial class Build
 {
@@ -37,7 +40,7 @@ partial class Build
         });
 
     Target PackWithVelopack => _ => _
-        .DependsOn(Publish)
+        .DependsOn(ConfigureAppSettings)
         .DependsOn(CleanVelopack)
         .Executes(() =>
         {
@@ -50,7 +53,7 @@ partial class Build
         });
 
     Target DownloadServerToLocal => _ => _
-        .Executes(async () =>
+        .Executes(() =>
         {
             using var sshClient = new SshClient(SshConnectionInfo);
             sshClient.Connect();
@@ -64,10 +67,16 @@ partial class Build
         });
 
     Target UploadLocalToServer => _ => _
-        .DependsOn(PackWithVelopack)
-        .DependsOn(DownloadServerToLocal)
+        // .DependsOn(PackWithVelopack) // This target should likely depend on PackWithVelopack
+        .DependsOn(ConfigureAppSettings) // Ensure settings are configured before packing
+        .DependsOn(PackWithVelopack) // Ensure packing happens after configuration
+        .DependsOn(DownloadServerToLocal) // Keep existing dependency
         .Executes(() =>
         {
+            // Note: The original PackWithVelopack target was modified to depend on ConfigureAppSettings.
+            // This UploadLocalToServer target likely needs to run *after* PackWithVelopack.
+            // Let's adjust PackWithVelopack dependency instead.
+
             Vpk.Invoke($"vpk upload local --path {VelopackReleaseMirroredFromRemoteServer} --channel {Channel} --keepMaxReleases {MaxReleasesOnServer} --outputDir {VelopackPublish} --regenerate");
             Scp.Invoke($"-i {SshPrivateKey} -r -P {SshPort} {VelopackReleaseMirroredFromRemoteServer} {SshUser}@{SshServer}:/var/www/html/{NameProjectDirectoryOnTheServer}/");
 

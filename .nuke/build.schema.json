@@ -27,6 +27,7 @@
         "Clean",
         "CleanVelopack",
         "Compile",
+        "ConfigureAppSettings",
         "CreateVersionLabel",
         "DownloadServerToLocal",
         "PackWithVelopack",
@@ -154,6 +155,10 @@
             "X64",
             "x86"
           ]
+        },
+        "UpdateBaseUrl": {
+          "type": "string",
+          "description": "Base URL for Velopack updates served via the website"
         }
       }
     },

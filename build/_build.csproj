@@ -22,4 +22,8 @@
     <PackageDownload Include="vpk" Version="[0.0.1053]" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ZtrTemplates.Configuration.Shared\ZtrTemplates.Configuration.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
