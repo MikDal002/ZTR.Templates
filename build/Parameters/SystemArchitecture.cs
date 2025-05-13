@@ -1,7 +1,7 @@
-﻿using System;
-using System.ComponentModel;
-using Nuke.Common;
+﻿using Nuke.Common;
 using Nuke.Common.Tooling;
+using System;
+using System.ComponentModel;
 
 [TypeConverter(typeof(TypeConverter<SystemArchitecture>))]
 public class SystemArchitecture : Enumeration

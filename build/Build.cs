@@ -1,17 +1,13 @@
 using Nuke.Common;
-using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.Git;
-using Nuke.Common.Tools.GitHub;
 using Nuke.Common.Tools.GitVersion;
-using Nuke.Common.Utilities;
 using Nuke.Common.Utilities.Collections;
 using Serilog;
-using System.IO;
 
 public partial class Build : NukeBuild
 {
@@ -31,7 +27,6 @@ public partial class Build : NukeBuild
 
     [Parameter("System architecture to build, deafults to current architecture. Change if you want to cross compile")]
     readonly SystemArchitecture SystemArchitecture = SystemArchitecture.GetCurrentConfiguration();
-
 
     string Runtime => $"{OperationSystem}-{SystemArchitecture}";
 
