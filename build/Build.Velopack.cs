@@ -3,11 +3,6 @@ using Nuke.Common.IO;
 using Nuke.Common.Tooling;
 using Nuke.Common.Utilities;
 using Renci.SshNet;
-using Serilog;
-using System.IO;
-using System.Text.Json;
-using System.Text.Json.Nodes;
-using ZtrTemplates.Configuration.Shared;
 
 partial class Build
 {
@@ -18,12 +13,11 @@ partial class Build
     [Parameter] readonly int SshPort = 10366;
     [Parameter] readonly string SshUser = "frog";
     [Parameter] readonly string SshServer = "frog02.mikr.us";
-    ConnectionInfo SshConnectionInfo => new ConnectionInfo(SshServer, port: SshPort, SshUser, new PrivateKeyAuthenticationMethod(SshUser, new PrivateKeyFile(SshPrivateKey)));
+    ConnectionInfo SshConnectionInfo => new(SshServer, port: SshPort, SshUser, new PrivateKeyAuthenticationMethod(SshUser, new PrivateKeyFile(SshPrivateKey)));
 
     [Parameter] readonly int MaxReleasesOnServer = 2;
     [Parameter] readonly string DirectoryForReleases = "releases";
     string Channel => $"{OperationSystem}-{SystemArchitecture}" + (GitVersion.PreReleaseLabel.IsNullOrWhiteSpace() ? "" : "-alpha");
-
 
     AbsolutePath SshPrivateKey = RootDirectory / "ztrtemplates";
 
@@ -58,7 +52,7 @@ partial class Build
             using var sshClient = new SshClient(SshConnectionInfo);
             sshClient.Connect();
             using var cmd = sshClient.RunCommand($"mkdir -p /var/www/html/{NameProjectDirectoryOnTheServer}/{DirectoryForReleases}");
-            
+
             VelopackReleaseMirroredFromRemoteServer.CreateOrCleanDirectory();
             Scp.Invoke(
                 $"-i {SshPrivateKey} -r -P {SshPort} {SshUser}@{SshServer}:/var/www/html/{NameProjectDirectoryOnTheServer}/{DirectoryForReleases} {VelopackReleaseMirroredFromRemoteServer}");

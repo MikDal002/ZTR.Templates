@@ -1,16 +1,10 @@
-﻿using Nuke.Common.CI.GitHubActions;
+﻿using Nuke.Common;
+using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.IO;
 using Nuke.Common.Tools.GitHub;
 using Nuke.Common.Tools.GitVersion;
-using Nuke.Common;
-using Octokit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Nuke.Common.Utilities;
-using static System.Net.Mime.MediaTypeNames;
+using Octokit;
 using Octokit.Internal;
 using System.IO;
 

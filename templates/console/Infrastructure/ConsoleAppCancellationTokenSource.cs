@@ -1,76 +1,77 @@
 using System;
 using System.Threading;
 
-namespace ConsoleTemplate.Infrastructure
+namespace ConsoleTemplate.Infrastructure;
+
+/// <summary>
+/// Manages a CancellationTokenSource that gets cancelled on console cancel key press (Ctrl+C) or process exit.
+/// </summary>
+public sealed class ConsoleAppCancellationTokenSource : IDisposable
 {
+    private readonly CancellationTokenSource _cts;
+    private bool _disposed;
+
     /// <summary>
-    /// Manages a CancellationTokenSource that gets cancelled on console cancel key press (Ctrl+C) or process exit.
+    /// Initializes a new instance of the <see cref="ConsoleAppCancellationTokenSource"/> class.
     /// </summary>
-    public sealed class ConsoleAppCancellationTokenSource : IDisposable
+    public ConsoleAppCancellationTokenSource()
     {
-        private readonly CancellationTokenSource _cts;
-        private bool _disposed;
+        _cts = new();
+        Console.CancelKeyPress += OnCancelKeyPress;
+        AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ConsoleAppCancellationTokenSource"/> class.
-        /// </summary>
-        public ConsoleAppCancellationTokenSource()
+    /// <summary>
+    /// Gets the CancellationToken associated with this source.
+    /// </summary>
+    public CancellationToken Token => _cts.Token;
+
+    private void OnCancelKeyPress(object? sender, ConsoleCancelEventArgs e)
+    {
+        // Prevent the process from terminating immediately
+        e.Cancel = true;
+        RequestCancellation();
+    }
+
+    private void OnProcessExit(object? sender, EventArgs e)
+    {
+        RequestCancellation();
+    }
+
+    private void RequestCancellation()
+    {
+        if (!_cts.IsCancellationRequested)
         {
-            _cts = new();
-            Console.CancelKeyPress += OnCancelKeyPress;
-            AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
+            _cts.Cancel();
         }
 
-        /// <summary>
-        /// Gets the CancellationToken associated with this source.
-        /// </summary>
-        public CancellationToken Token => _cts.Token;
+        UnsubscribeEvents();
+    }
 
-        private void OnCancelKeyPress(object? sender, ConsoleCancelEventArgs e)
+    private void UnsubscribeEvents()
+    {
+        Console.CancelKeyPress -= OnCancelKeyPress;
+        AppDomain.CurrentDomain.ProcessExit -= OnProcessExit;
+    }
+
+    /// <summary>
+    /// Releases the resources used by the <see cref="ConsoleAppCancellationTokenSource"/>.
+    /// </summary>
+    public void Dispose()
+    {
+        if (_disposed)
         {
-            // Prevent the process from terminating immediately
-            e.Cancel = true;
-            RequestCancellation();
+            return;
         }
 
-        private void OnProcessExit(object? sender, EventArgs e)
+        UnsubscribeEvents();
+        if (!_cts.IsCancellationRequested)
         {
-            RequestCancellation();
+            _cts.Cancel(); // Ensure cancellation is requested on dispose
         }
 
-        private void RequestCancellation()
-        {
-            if (!_cts.IsCancellationRequested)
-            {
-                _cts.Cancel();
-            }
-            UnsubscribeEvents();
-        }
-
-        private void UnsubscribeEvents()
-        {
-            Console.CancelKeyPress -= OnCancelKeyPress;
-            AppDomain.CurrentDomain.ProcessExit -= OnProcessExit;
-        }
-
-        /// <summary>
-        /// Releases the resources used by the <see cref="ConsoleAppCancellationTokenSource"/>.
-        /// </summary>
-        public void Dispose()
-        {
-            if (_disposed)
-            {
-                return;
-            }
-
-            UnsubscribeEvents();
-            if (!_cts.IsCancellationRequested)
-            {
-                _cts.Cancel(); // Ensure cancellation is requested on dispose
-            }
-            _cts.Dispose();
-            _disposed = true;
-            GC.SuppressFinalize(this);
-        }
+        _cts.Dispose();
+        _disposed = true;
+        GC.SuppressFinalize(this);
     }
 }

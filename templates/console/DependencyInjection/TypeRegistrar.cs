@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using ConsoleTemplate.Infrastructure;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Spectre.Console.Cli;
 using System;
@@ -11,7 +12,7 @@ public sealed class TypeRegistrar : ITypeRegistrar
 {
     private readonly IServiceCollection _services;
 
-    public TypeRegistrar()
+    public TypeRegistrar(bool enableConsoleLogging)
     {
         _services = new ServiceCollection();
 
@@ -22,13 +23,13 @@ public sealed class TypeRegistrar : ITypeRegistrar
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .Build();
 
-        // --- Dependency Injection Setup ---
         _services.AddSingleton<IConfiguration>(configuration);
-        _services.Configure<ZtrTemplates.Configuration.Shared.UpdateOptions>(configuration.GetSection(nameof(UpdateOptions)));
 
-        // Register application services
+        LoggerSetup.ConfigureSerilog(_services, configuration, enableConsoleLogging); // Call the new static method
+        _services.AddSingleton<ICommandInterceptor, LogInterceptor>();
+
+        _services.Configure<UpdateOptions>(configuration.GetSection(nameof(UpdateOptions)));
         _services.AddSingleton<IUpdateService, UpdateService>();
-        // Add other services here if needed
     }
 
     public ITypeResolver Build() => new TypeResolver(_services.BuildServiceProvider());

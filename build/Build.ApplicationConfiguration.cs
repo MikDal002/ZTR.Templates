@@ -11,9 +11,9 @@ public partial class Build
     readonly string UpdateBaseUrl = "https://frog02-20366.wykr.es";
 
     Target ConfigureAppSettings => _ => _
-        .DependsOn(Clean) 
+        .DependsOn(Clean)
         .TriggeredBy(Clean)
-        .Unlisted() 
+        .Unlisted()
         .Executes(() =>
         {
             Log.Information("Configuring appsettings.json for deployment...");
@@ -44,17 +44,15 @@ public partial class Build
                 rootNode = null;
             }
 
-
             rootNode ??= new JsonObject();
-
 
             if (rootNode[nameof(UpdateOptions)] is not JsonObject updateOptionsNode)
             {
                 updateOptionsNode = new JsonObject();
                 rootNode[nameof(UpdateOptions)] = updateOptionsNode;
             }
-            updateOptionsNode[nameof(UpdateOptions.UpdateUrl)] = updateUrl;
 
+            updateOptionsNode[nameof(UpdateOptions.UpdateUrl)] = updateUrl;
 
             var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
             File.WriteAllText(appSettingsPath, rootNode.ToJsonString(jsonOptions));
