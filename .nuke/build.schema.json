@@ -33,6 +33,7 @@
         "PackWithVelopack",
         "Publish",
         "PublishToGithub",
+        "PublishToGitHubWithVelopack",
         "Restore",
         "Tests",
         "UploadLocalToServer"
@@ -119,6 +120,10 @@
         },
         "DirectoryForReleases": {
           "type": "string"
+        },
+        "GitHubToken": {
+          "type": "string",
+          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
         },
         "MaxReleasesOnServer": {
           "type": "integer",
