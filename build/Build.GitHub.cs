@@ -2,7 +2,6 @@
 using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.IO;
 using Nuke.Common.Tools.GitHub;
-using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Utilities;
 using Octokit;
 using Octokit.Internal;
@@ -20,17 +19,6 @@ using System.IO;
     CacheIncludePatterns = new[] { ".nuke/temp", "~/.nuget/packages" },
     EnableGitHubToken = true
 )]
-// [GitHubActions(
-// "Create Realease",
-//     GitHubActionsImage.WindowsLatest,
-//     OnPushBranches = new[] { MasterBranch, MainBranch, DevelopBranch },
-//     PublishArtifacts = true,
-//     FetchDepth = 0,
-//     InvokedTargets = new[] { nameof(Tests), nameof(PublishToGithub) },
-//     CacheKeyFiles = new[] { "**/global.json", "**/*.csproj" },
-//     CacheIncludePatterns = new[] { ".nuke/temp", "~/.nuget/packages" },
-//     EnableGitHubToken = true
-// )]
 public partial class Build : NukeBuild
 {
     /// <summary>
