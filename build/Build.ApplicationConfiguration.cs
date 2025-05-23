@@ -13,6 +13,7 @@ public partial class Build
     Target ConfigureAppSettings => _ => _
         .DependsOn(Clean)
         .TriggeredBy(Clean)
+        .Before(Compile)
         .Unlisted()
         .Executes(() =>
         {
