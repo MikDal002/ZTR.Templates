@@ -4,6 +4,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Velopack;
+using Velopack.Sources;
 
 namespace ConsoleTemplate;
 
@@ -21,14 +22,27 @@ public class UpdateService : IUpdateService // Removed primary constructor
     // Constructor injection
     public UpdateService(IOptions<ZtrTemplates.Configuration.Shared.UpdateOptions> updateOptions)
     {
-        var url = updateOptions.Value.UpdateUrl;
+        var options = updateOptions.Value;
+        var url = options.UpdateUrl;
+
         if (string.IsNullOrWhiteSpace(url))
         {
-            // Handle missing URL - throw exception or log error
             throw new InvalidOperationException("Update URL is not configured in appsettings.json under UpdateOptions section.");
         }
 
-        _updateManager = new(url);
+        IUpdateSource source;
+
+        if (options.UseGitHubSource)
+        {
+            source = new GithubSource(url, null, options.FetchPrereleases);
+        }
+        else
+        {
+            source = new SimpleWebSource(url);
+        }
+
+        _updateManager = new(source);
+
     }
 
     public SemanticVersion? GetCurrentVersion()
