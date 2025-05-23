@@ -37,7 +37,18 @@ public class UpdateCommand(IUpdateService updateService) : CancellableAsyncComma
             return 0;
         }
 
-        AnsiConsole.MarkupLine($"[yellow]A new version is available: {newVersion}[/]");
+        AnsiConsole.MarkupLine($"[yellow]A new version is available: {newVersion.TargetFullRelease.Version}[/]");
+
+        if (!string.IsNullOrWhiteSpace(newVersion.TargetFullRelease.NotesMarkdown))
+        {
+            AnsiConsole.WriteLine();
+            var panel = new Panel(new Text(newVersion.TargetFullRelease.NotesMarkdown))
+                .Header("Release Notes")
+                .Border(BoxBorder.Rounded)
+                .Expand();
+            AnsiConsole.Write(panel);
+            AnsiConsole.WriteLine();
+        }
 
         if (!settings.Update)
         {
