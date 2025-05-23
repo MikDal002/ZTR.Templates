@@ -1,7 +1,6 @@
 using Nuke.Common;
 using Nuke.Common.Utilities;
 using Serilog;
-using System;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -23,7 +22,7 @@ public partial class Build
             var appSettingsPath = ProjectToPublish.Directory / "appsettings.json";
             var (determinedUpdateUrl, determinedUseGitHubSource, determinedFetchPrereleases) = GetTargetSpecificUpdateOptions();
 
-            if (determinedUpdateUrl == null && determinedUseGitHubSource == null && determinedFetchPrereleases == null)
+            if (determinedUpdateUrl == null)
             {
                 Log.Warning($"No specific update configuration determined for current execution.");
                 return;
@@ -66,22 +65,15 @@ public partial class Build
                 updateOptionsNode[nameof(UpdateOptions.UpdateUrl)] = determinedUpdateUrl;
             }
 
-            if (determinedUseGitHubSource.HasValue)
-            {
-                updateOptionsNode[nameof(UpdateOptions.UseGitHubSource)] = determinedUseGitHubSource.Value;
-            }
-
-            if (determinedFetchPrereleases.HasValue)
-            {
-                updateOptionsNode[nameof(UpdateOptions.FetchPrereleases)] = determinedFetchPrereleases.Value;
-            }
+            updateOptionsNode[nameof(UpdateOptions.UseGitHubSource)] = determinedUseGitHubSource;
+            updateOptionsNode[nameof(UpdateOptions.FetchPrereleases)] = determinedFetchPrereleases;
 
             var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
             File.WriteAllText(appSettingsPath, rootNode.ToJsonString(jsonOptions));
             Log.Information($"Configured update settings in '{appSettingsPath}'.");
         });
 
-    (string? updateUrl, bool? useGitHubSource, bool? fetchPrereleases) GetTargetSpecificUpdateOptions()
+    (string? updateUrl, bool useGitHubSource, bool fetchPrereleases) GetTargetSpecificUpdateOptions()
     {
         Log.Information("Determining target-specific update options...");
 
@@ -90,7 +82,7 @@ public partial class Build
             if (string.IsNullOrWhiteSpace(GitHubBrowseUrl))
             {
                 Log.Warning($"{nameof(GitHubBrowseUrl)} is not set for {nameof(PublishToGitHubWithVelopack)}. Cannot determine update URL.");
-                return (null, null, null);
+                return (null, false, false);
             }
 
             Log.Information($"Target {nameof(PublishToGitHubWithVelopack)} detected. Configuring for GitHub releases.");
@@ -103,6 +95,6 @@ public partial class Build
         }
 
         Log.Information("No specific publish target identified for dynamic UpdateOptions configuration.");
-        return (null, null, null); // No specific configuration found
+        return (null, false, false); // No specific configuration found
     }
 }
