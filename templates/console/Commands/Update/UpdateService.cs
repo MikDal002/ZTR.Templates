@@ -15,11 +15,10 @@ public interface IUpdateService
     Task DownloadAndApplyUpdatesAsync(UpdateInfo newVersion, CancellationToken cancellationToken = default);
 }
 
-public class UpdateService : IUpdateService // Removed primary constructor
+public class UpdateService : IUpdateService
 {
     private readonly UpdateManager _updateManager;
 
-    // Constructor injection
     public UpdateService(IOptions<ZtrTemplates.Configuration.Shared.UpdateOptions> updateOptions)
     {
         var options = updateOptions.Value;

@@ -26,6 +26,7 @@ partial class Build
 
     Target DownloadGithubRelease => _ => _
         .Before(PackWithVelopack)
+        .After(CleanVelopack)
         .Requires(() => GitHubToken)
         .OnlyWhenStatic(() => GitRepository.IsGitHubRepository())
         .Executes(() =>

@@ -1,6 +1,9 @@
 using Nuke.Common;
+using Nuke.Common.Utilities;
 using Serilog;
+using System;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using ZtrTemplates.Configuration.Shared;
@@ -17,11 +20,16 @@ public partial class Build
         .Unlisted()
         .Executes(() =>
         {
-            Log.Information("Configuring appsettings.json for deployment...");
-
-            var updateUrl = $"{UpdateBaseUrl}/{NameProjectDirectoryOnTheServer}/{DirectoryForReleases}";
-
             var appSettingsPath = ProjectToPublish.Directory / "appsettings.json";
+            var (determinedUpdateUrl, determinedUseGitHubSource, determinedFetchPrereleases) = GetTargetSpecificUpdateOptions();
+
+            if (determinedUpdateUrl == null && determinedUseGitHubSource == null && determinedFetchPrereleases == null)
+            {
+                Log.Warning($"No specific update configuration determined for current execution.");
+                return;
+            }
+
+            Log.Information($"Attempting to configure update settings in '{appSettingsPath}'. Url: '{determinedUpdateUrl}', UseGitHub: {determinedUseGitHubSource}, FetchPrereleases: {determinedFetchPrereleases}");
 
             JsonNode? rootNode;
 
@@ -53,10 +61,48 @@ public partial class Build
                 rootNode[nameof(UpdateOptions)] = updateOptionsNode;
             }
 
-            updateOptionsNode[nameof(UpdateOptions.UpdateUrl)] = updateUrl;
+            if (determinedUpdateUrl != null)
+            {
+                updateOptionsNode[nameof(UpdateOptions.UpdateUrl)] = determinedUpdateUrl;
+            }
+
+            if (determinedUseGitHubSource.HasValue)
+            {
+                updateOptionsNode[nameof(UpdateOptions.UseGitHubSource)] = determinedUseGitHubSource.Value;
+            }
+
+            if (determinedFetchPrereleases.HasValue)
+            {
+                updateOptionsNode[nameof(UpdateOptions.FetchPrereleases)] = determinedFetchPrereleases.Value;
+            }
 
             var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
             File.WriteAllText(appSettingsPath, rootNode.ToJsonString(jsonOptions));
-            Log.Information($"Ensured '{nameof(UpdateOptions)}.{nameof(UpdateOptions.UpdateUrl)}' is set to '{updateUrl}' in '{appSettingsPath}'"); // Changed Log.Success to Log.Information
+            Log.Information($"Configured update settings in '{appSettingsPath}'.");
         });
+
+    (string? updateUrl, bool? useGitHubSource, bool? fetchPrereleases) GetTargetSpecificUpdateOptions()
+    {
+        Log.Information("Determining target-specific update options...");
+
+        if (ExecutionPlan.Any(t => t.Name == nameof(PublishToGitHubWithVelopack)))
+        {
+            if (string.IsNullOrWhiteSpace(GitHubBrowseUrl))
+            {
+                Log.Warning($"{nameof(GitHubBrowseUrl)} is not set for {nameof(PublishToGitHubWithVelopack)}. Cannot determine update URL.");
+                return (null, null, null);
+            }
+
+            Log.Information($"Target {nameof(PublishToGitHubWithVelopack)} detected. Configuring for GitHub releases.");
+            return (GitHubBrowseUrl, true, !GitVersion.PreReleaseLabel.IsNullOrWhiteSpace());
+        }
+        else if (ExecutionPlan.Any(t => t.Name == nameof(UploadLocalToServer))) // Replace with actual target name if you re-implement it
+        {
+            Log.Information("Target for custom server detected. Configuring for custom URL.");
+            return ($"{UpdateBaseUrl}/{NameProjectDirectoryOnTheServer}/{DirectoryForReleases}", false, false);
+        }
+
+        Log.Information("No specific publish target identified for dynamic UpdateOptions configuration.");
+        return (null, null, null); // No specific configuration found
+    }
 }
