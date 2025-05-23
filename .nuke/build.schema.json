@@ -29,6 +29,7 @@
         "Compile",
         "ConfigureAppSettings",
         "CreateVersionLabel",
+        "DownloadGithubRelease",
         "DownloadServerToLocal",
         "PackWithVelopack",
         "Publish",
@@ -119,6 +120,9 @@
           ]
         },
         "DirectoryForReleases": {
+          "type": "string"
+        },
+        "GitHubBrowseUrl": {
           "type": "string"
         },
         "GitHubToken": {
