@@ -144,7 +144,16 @@ public partial class Build : NukeBuild
             }
 
             GitTasks.Git($"tag -a {GitVersion.FullSemVer} -m \"Setting git tag on commit to '{GitVersion.FullSemVer}'\"");
-            GitTasks.Git($"push --set-upstream origin {GitVersion.FullSemVer}");
+
+            try
+            {
+                GitTasks.Git($"push origin refs/tags/{GitVersion.FullSemVer}");
+                Log.Information($"Successfully pushed tag {GitVersion.FullSemVer}.");
+            }
+            catch (ProcessException ex) when (ex.Message.Contains("already exists") || ex.Message.Contains("Updates were rejected because the tag already exists"))
+            {
+                Log.Warning($"Tag {GitVersion.FullSemVer} already exists on remote. Skipping push. Details: {ex.Message}");
+            }
         });
 
 }
