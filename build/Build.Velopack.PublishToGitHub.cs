@@ -4,6 +4,7 @@ using Nuke.Common.IO;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.GitHub;
 using Nuke.Common.Utilities;
+using System.Text;
 
 [GitHubActions(
     "Create Velopack Release",
@@ -29,25 +30,23 @@ partial class Build
     Target DownloadGithubRelease => _ => _
         .Before(PackWithVelopack)
         .Requires(() => GitHubToken)
-        .OnlyWhenStatic(() => !GitHubToken.IsNullOrWhiteSpace(), "GitHubToken is not available.")
         .OnlyWhenStatic(() => GitRepository.IsGitHubRepository())
         .Executes(() =>
         {
             var isPrerelease = !GitVersion.PreReleaseLabel.IsNullOrWhiteSpace();
 
-            var arguments = new ArgumentStringHandler()
-                .Append("download github")
-                .Append("--repoUrl", GitHubBrowseUrl)
-                .Append("--token", GitHubToken, ArgumentStringHandlerExtensions.IsSecret.Yes)
-                .Append("--outputDir", VelopackPublish)
-                .Append("--channel", Channel);
+            var arguments =
+                "download github" +
+                $" --repoUrl {GitHubBrowseUrl}" +
+                $" --token {GitHubToken}" +
+                $" --outputDir {VelopackPublish}" +
+                $" --channel {Channel}";
 
             if (isPrerelease)
             {
-                arguments = arguments.Append("--pre");
+                arguments = arguments.Append(" --pre");
             }
 
-            var foo = arguments.ToStringAndClear();
             Vpk.Invoke(arguments);
         });
 
@@ -55,26 +54,24 @@ partial class Build
         .DependsOn(PackWithVelopack)
         .DependsOn(DownloadGithubRelease)
         .Requires(() => GitHubToken)
-        .OnlyWhenStatic(() => !GitHubToken.IsNullOrWhiteSpace(), "GitHubToken is not available.")
         .OnlyWhenStatic(() => GitRepository.IsGitHubRepository())
         .Executes(() =>
         {
             var isPrerelease = !GitVersion.PreReleaseLabel.IsNullOrWhiteSpace();
             var releaseName = GitVersion.FullSemVer;
-            var tag = GitVersion.FullSemVer; 
-            var arguments = new ArgumentStringHandler()
-                .Append("upload github")
-                .Append("--outputDir", VelopackPublish)
-                .Append("--channel", Channel)
-                .Append("--repoUrl", GitHubBrowseUrl)
-                .Append("--token", GitHubToken, ArgumentStringHandlerExtensions.IsSecret.Yes)
-                .Append("--publish")
-                .Append("--releaseName", releaseName)
-                .Append("--tag", tag);
+            var tag = GitVersion.FullSemVer;
+            var arguments = "upload github" +
+                            $" --outputDir {VelopackPublish}" +
+                            $" --channel {Channel}" +
+                            $" --repoUrl {GitHubBrowseUrl}" +
+                            $" --token {GitHubToken}" +
+                            $" --publish" +
+                            $" --releaseName {releaseName}" +
+                            $" --tag {tag}";
 
             if (isPrerelease)
             {
-                arguments = arguments.Append("--pre");
+                arguments = arguments.Append(" --pre");
             }
 
             Vpk.Invoke(arguments);

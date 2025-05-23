@@ -7,7 +7,7 @@ static class ArgumentStringHandlerExtensions
         No,
         Yes,
     }
-    
+
     public static ArgumentStringHandler Append(this ArgumentStringHandler handler, string paramater, object value = null, IsSecret? isSecret = null)
     {
         handler.AppendLiteral(paramater);
