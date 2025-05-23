@@ -121,6 +121,15 @@ public partial class Build : NukeBuild
                .SetProjectFile(Solution));
        });
 
+    Target Format => _ => _
+        .Executes(() =>
+        {
+            DotNetTasks.DotNetFormat(s => s
+                .SetProject(Solution)
+                .SetVerifyNoChanges(true)
+                .SetSeverity("error"));
+        });
+
     Target CreateVersionLabel => _ => _
         .TriggeredBy(Publish)
         .OnlyWhenStatic(() => GitRepository.IsOnMainOrMasterBranch() || GitRepository.IsOnDevelopBranch())
@@ -130,8 +139,8 @@ public partial class Build : NukeBuild
 
             if (!IsLocalBuild)
             {
-                GitTasks.Git($"config --global user.email \"build@ourcompany.com\"");
-                GitTasks.Git($"config --global user.name \"Our Company Build\"");
+                GitTasks.Git($"config user.email \"build@ourcompany.com\"");
+                GitTasks.Git($"config user.name \"Our Company Build\"");
             }
 
             GitTasks.Git($"tag -a {GitVersion.FullSemVer} -m \"Setting git tag on commit to '{GitVersion.FullSemVer}'\"");
