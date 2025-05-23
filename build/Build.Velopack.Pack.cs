@@ -1,4 +1,4 @@
-﻿﻿using Nuke.Common;
+﻿using Nuke.Common;
 using Nuke.Common.IO;
 using Nuke.Common.Tooling;
 using Nuke.Common.Utilities;

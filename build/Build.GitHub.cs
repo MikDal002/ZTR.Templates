@@ -31,7 +31,7 @@ public partial class Build : NukeBuild
         {
 
             Assert.True(GitRepository.IsGitHubRepository());
-            
+
             var owner = GitRepository.GetGitHubOwner();
             var repositorytName = GitRepository.GetGitHubName();
 
