@@ -5,7 +5,7 @@ using Nuke.Common.Utilities;
 
 partial class Build
 {
-    [PathVariable] public Tool Vpk;
+    [NuGetPackage("vpk", "vpk")] public readonly Tool Vpk;
 
     string Channel => $"{OperationSystem}-{SystemArchitecture}" + (GitVersion.PreReleaseLabel.IsNullOrWhiteSpace() ? "" : "-alpha");
 

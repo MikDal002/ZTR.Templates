@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <PackageDownload Include="GitVersion.Tool" Version="[6.2.0]" />
-    <PackageDownload Include="vpk" Version="[0.0.1053]" />
+    <PackageDownload Include="vpk" Version="[0.0.1251]" />
   </ItemGroup>
 
   <ItemGroup>
