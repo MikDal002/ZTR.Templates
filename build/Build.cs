@@ -61,6 +61,7 @@ public partial class Build : NukeBuild
         });
 
     Target Restore => _ => _
+        .DependsOn(Format)
         .Executes(() =>
         {
             DotNetTasks.DotNetRestore(s => s
@@ -117,7 +118,6 @@ public partial class Build : NukeBuild
            DotNetTasks.DotNetTest(s => s.SetConfiguration(Configuration)
                .SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-US")
                .SetRuntime(Runtime)
-               .EnableNoBuild()
                .SetProjectFile(Solution));
        });
 
@@ -126,8 +126,9 @@ public partial class Build : NukeBuild
         {
             DotNetTasks.DotNetFormat(s => s
                 .SetProject(Solution)
-                .SetVerifyNoChanges(true)
-                .SetSeverity("error"));
+                .When(_ => IsServerBuild, s => s)
+                    .SetVerifyNoChanges(true)
+                    .SetSeverity("error"));
         });
 
     Target CreateVersionLabel => _ => _
