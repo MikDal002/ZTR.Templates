@@ -65,7 +65,8 @@ partial class Build
                             $" --token {GitHubToken}" +
                             $" --publish" +
                             $" --releaseName {releaseName}" +
-                            $" --tag {tag}";
+                            $" --tag {tag}" +
+                            $" --targetCommitish {GitVersion.Sha}";
 
             if (isPrerelease)
             {
