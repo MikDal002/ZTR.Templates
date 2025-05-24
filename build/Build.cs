@@ -61,6 +61,7 @@ public partial class Build : NukeBuild
         });
 
     Target Restore => _ => _
+        .DependsOn(Format)
         .Executes(() =>
         {
             DotNetTasks.DotNetRestore(s => s
@@ -117,9 +118,18 @@ public partial class Build : NukeBuild
            DotNetTasks.DotNetTest(s => s.SetConfiguration(Configuration)
                .SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-US")
                .SetRuntime(Runtime)
-               .EnableNoBuild()
                .SetProjectFile(Solution));
        });
+
+    Target Format => _ => _
+        .Executes(() =>
+        {
+            DotNetTasks.DotNetFormat(s => s
+                .SetProject(Solution)
+                .When(_ => IsServerBuild, s => s)
+                    .SetVerifyNoChanges(true)
+                    .SetSeverity("error"));
+        });
 
     Target CreateVersionLabel => _ => _
         .TriggeredBy(Publish)
@@ -130,12 +140,21 @@ public partial class Build : NukeBuild
 
             if (!IsLocalBuild)
             {
-                GitTasks.Git($"config --global user.email \"build@ourcompany.com\"");
-                GitTasks.Git($"config --global user.name \"Our Company Build\"");
+                GitTasks.Git($"config user.email \"build@ourcompany.com\"");
+                GitTasks.Git($"config user.name \"Our Company Build\"");
             }
 
             GitTasks.Git($"tag -a {GitVersion.FullSemVer} -m \"Setting git tag on commit to '{GitVersion.FullSemVer}'\"");
-            GitTasks.Git($"push --set-upstream origin {GitVersion.FullSemVer}");
+
+            try
+            {
+                GitTasks.Git($"push origin refs/tags/{GitVersion.FullSemVer}");
+                Log.Information($"Successfully pushed tag {GitVersion.FullSemVer}.");
+            }
+            catch (ProcessException ex) when (ex.Message.Contains("already exists") || ex.Message.Contains("Updates were rejected because the tag already exists"))
+            {
+                Log.Warning($"Tag {GitVersion.FullSemVer} already exists on remote. Skipping push. Details: {ex.Message}");
+            }
         });
 
 }

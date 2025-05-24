@@ -2,7 +2,6 @@
 using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.IO;
 using Nuke.Common.Tools.GitHub;
-using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Utilities;
 using Octokit;
 using Octokit.Internal;
@@ -20,34 +19,19 @@ using System.IO;
     CacheIncludePatterns = new[] { ".nuke/temp", "~/.nuget/packages" },
     EnableGitHubToken = true
 )]
-[GitHubActions(
-"Create Realease",
-    GitHubActionsImage.WindowsLatest,
-    OnPushBranches = new[] { MasterBranch, MainBranch, DevelopBranch },
-    PublishArtifacts = true,
-    FetchDepth = 0,
-    InvokedTargets = new[] { nameof(Tests), nameof(PublishToGithub) },
-    CacheKeyFiles = new[] { "**/global.json", "**/*.csproj" },
-    CacheIncludePatterns = new[] { ".nuke/temp", "~/.nuget/packages" },
-    EnableGitHubToken = true
-)]
 public partial class Build : NukeBuild
 {
-    const string MainBranch = "main";
-    const string MasterBranch = "master";
-    const string DevelopBranch = "develop";
-
     /// <summary>
     /// It is not heavy tested but should work.
     /// </summary>
     Target PublishToGithub => _ => _
         .DependsOn(Publish)
         .DependsOn(Tests)
-        .OnlyWhenStatic(() => GitRepository.IsGitHubRepository())
         .Executes(() =>
         {
 
             Assert.True(GitRepository.IsGitHubRepository());
+
             var owner = GitRepository.GetGitHubOwner();
             var repositorytName = GitRepository.GetGitHubName();
 
