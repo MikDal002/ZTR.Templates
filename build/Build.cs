@@ -126,8 +126,9 @@ public partial class Build : NukeBuild
         {
             DotNetTasks.DotNetFormat(s => s
                 .SetProject(Solution)
-                .SetVerifyNoChanges(true)
-                .SetSeverity("error"));
+                .When(_ => IsServerBuild, s => s)
+                    .SetVerifyNoChanges(true)
+                    .SetSeverity("error"));
         });
 
     Target CreateVersionLabel => _ => _
