@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
 
-namespace ConsoleTemplate.Infrastructure;
+namespace ZtrTemplates.Console.Infrastructure;
 
 /// <summary>
 /// Manages a CancellationTokenSource that gets cancelled on console cancel key press (Ctrl+C) or process exit.
@@ -17,7 +17,7 @@ public sealed class ConsoleAppCancellationTokenSource : IDisposable
     public ConsoleAppCancellationTokenSource()
     {
         _cts = new();
-        Console.CancelKeyPress += OnCancelKeyPress;
+        System.Console.CancelKeyPress += OnCancelKeyPress;
         AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
     }
 
@@ -50,7 +50,7 @@ public sealed class ConsoleAppCancellationTokenSource : IDisposable
 
     private void UnsubscribeEvents()
     {
-        Console.CancelKeyPress -= OnCancelKeyPress;
+        System.Console.CancelKeyPress -= OnCancelKeyPress;
         AppDomain.CurrentDomain.ProcessExit -= OnProcessExit;
     }
 

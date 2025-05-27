@@ -17,7 +17,7 @@ partial class Build
     ConnectionInfo SshConnectionInfo => new(SshServer, port: SshPort, SshUser, new PrivateKeyAuthenticationMethod(SshUser, new PrivateKeyFile(SshPrivateKey)));
 
     AbsolutePath SshPrivateKey = RootDirectory / "ztrtemplates";
-    AbsolutePath VelopackReleaseMirroredFromRemoteServer => VelopackDirectory / DirectoryForReleases;
+    AbsolutePath VelopackReleaseMirroredFromRemoteServer => VelopackRootDirectory / DirectoryForReleases;
     string NameProjectDirectoryOnTheServer => NameOfProjectToBePublished.ToLower();
 
     Target DownloadServerToLocal => _ => _

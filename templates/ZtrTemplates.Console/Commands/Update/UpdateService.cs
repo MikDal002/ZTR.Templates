@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Velopack;
 using Velopack.Sources;
 
-namespace ConsoleTemplate;
+namespace ZtrTemplates.Console;
 
 public interface IUpdateService
 {

@@ -1,10 +1,10 @@
-using ConsoleTemplate.Infrastructure;
 using Spectre.Console.Cli;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using ZtrTemplates.Console.Infrastructure;
 
-namespace ConsoleTemplate.Commands.Base;
+namespace ZtrTemplates.Console.Commands.Base;
 
 /// <summary>
 /// Base class for Spectre.Console commands that support cancellation via Ctrl+C or process exit.

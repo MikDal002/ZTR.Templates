@@ -387,3 +387,6 @@ FodyWeavers.xsd
 .idea/
 *.sln.iml
 /output
+/.nuke/temp/release_notes.md
+/build/Properties/launchSettings.json
+/templates/ZtrTemplates.Console/Properties/launchSettings.json

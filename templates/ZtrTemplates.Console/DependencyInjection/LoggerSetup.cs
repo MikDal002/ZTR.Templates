@@ -4,7 +4,7 @@ using Serilog;
 using Serilog.Events;
 using System.IO;
 
-namespace ConsoleTemplate.DependencyInjection;
+namespace ZtrTemplates.Console.DependencyInjection;
 
 public static class LoggerSetup
 {

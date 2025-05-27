@@ -1,12 +1,12 @@
-using ConsoleTemplate.Commands.Base;
 using Spectre.Console;
 using Spectre.Console.Cli;
 using Spectre.Console.Cli.Help;
 using Spectre.Console.Rendering;
 using System.Collections.Generic;
 using System.Linq;
+using ZtrTemplates.Console.Commands.Base;
 
-namespace ConsoleTemplate.Infrastructure;
+namespace ZtrTemplates.Console.Infrastructure;
 
 public class CustomHelpProvider : HelpProvider
 {
