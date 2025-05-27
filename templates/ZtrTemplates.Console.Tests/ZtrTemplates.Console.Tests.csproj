@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\console\ConsoleTemplate.csproj" />
+    <ProjectReference Include="..\ZtrTemplates.Console\ZtrTemplates.Console.csproj" />
   </ItemGroup>
 
 </Project>

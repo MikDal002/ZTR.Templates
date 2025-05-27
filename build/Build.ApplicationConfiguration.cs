@@ -1,3 +1,4 @@
+#nullable enable
 using Nuke.Common;
 using Nuke.Common.Utilities;
 using Serilog;
@@ -14,7 +15,6 @@ public partial class Build
 
     Target ConfigureAppSettings => _ => _
         .DependsOn(Clean)
-        .TriggeredBy(Clean)
         .Before(Compile)
         .Unlisted()
         .Executes(() =>

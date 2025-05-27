@@ -1,12 +1,12 @@
-﻿using ConsoleTemplate.Infrastructure;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Spectre.Console.Cli;
 using System;
 using System.IO;
 using ZtrTemplates.Configuration.Shared;
+using ZtrTemplates.Console.Infrastructure;
 
-namespace ConsoleTemplate.DependencyInjection;
+namespace ZtrTemplates.Console.DependencyInjection;
 
 public sealed class TypeRegistrar : ITypeRegistrar
 {

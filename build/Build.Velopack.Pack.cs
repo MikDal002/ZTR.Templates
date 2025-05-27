@@ -18,14 +18,14 @@ partial class Build
 
     string Channel => $"{OperationSystem}-{SystemArchitecture}" + (GitVersion.PreReleaseLabel.IsNullOrWhiteSpace() ? "" : "-alpha");
 
-    AbsolutePath VelopackDirectory = RootDirectory / "Velopack";
-    AbsolutePath VelopackPublish => VelopackDirectory / "publish";
+    AbsolutePath VelopackRootDirectory = RootDirectory / "Velopack";
+    AbsolutePath VelopackPublish => VelopackRootDirectory / "publish";
 
     Target CleanVelopack => _ => _
         .TriggeredBy(Clean)
         .Executes(() =>
         {
-            VelopackDirectory.DeleteDirectory();
+            VelopackRootDirectory.DeleteDirectory();
         });
 
     Target PackWithVelopack => _ => _

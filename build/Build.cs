@@ -8,6 +8,7 @@ using Nuke.Common.Tools.Git;
 using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Utilities.Collections;
 using Serilog;
+using System.Linq;
 
 public partial class Build : NukeBuild
 {
@@ -38,8 +39,12 @@ public partial class Build : NukeBuild
     [GitVersion] readonly GitVersion GitVersion;
     [GitRepository] readonly GitRepository GitRepository;
 
-    const string NameOfProjectToBePublished = "ConsoleTemplate";
-    Project ProjectToPublish => Solution.GetProject(NameOfProjectToBePublished);
+    const string NameOfProjectToBePublished = "ZtrTemplates.Console";
+    Project ProjectToPublish =>
+        Solution.GetProject(NameOfProjectToBePublished)
+        ?? Solution.GetAllProjects(NameOfProjectToBePublished).FirstOrDefault()
+        ?? Solution.GetAllProjects("*").FirstOrDefault(p => p.Name.Equals(NameOfProjectToBePublished, System.StringComparison.OrdinalIgnoreCase))
+        ?? throw new System.Exception($"Project '{NameOfProjectToBePublished}' not found in solution for ProjectToPublish property.");
 
     AbsolutePath PublishedProjectAsZip =>
         PackagesDirectory / NameOfProjectToBePublished + ".zip";

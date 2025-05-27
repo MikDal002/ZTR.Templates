@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace ConsoleTemplate.Infrastructure;
+namespace ZtrTemplates.Console.Infrastructure;
 
 public sealed class LogInterceptor : ICommandInterceptor
 {

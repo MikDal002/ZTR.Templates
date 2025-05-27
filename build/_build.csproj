@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ZtrTemplates.Configuration.Shared\ZtrTemplates.Configuration.Shared.csproj" />
+    <ProjectReference Include="..\templates\ZtrTemplates.Configuration.Shared\ZtrTemplates.Configuration.Shared.csproj" />
   </ItemGroup>
 
 </Project>

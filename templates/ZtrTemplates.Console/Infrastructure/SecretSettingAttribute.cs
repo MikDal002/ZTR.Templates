@@ -1,6 +1,6 @@
 using System;
 
-namespace ConsoleTemplate.Infrastructure;
+namespace ZtrTemplates.Console.Infrastructure;
 
 /// <summary>
 /// Indicates that a command setting property should be treated as secret
