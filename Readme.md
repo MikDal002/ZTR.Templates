@@ -51,7 +51,7 @@ This project uses a GitFlow-inspired branching model, automated with GitVersion.
 **Supporting Branches:**
 
 *   **`feature/*`** (e.g., `feature/new-user-auth`):
-    *   Branched from `develop` for new development work.
+    *   Typically branched from `develop` for new development work, but can also originate from `main` or `master` if needed.
     *   Merged back into `develop` upon completion.
     *   **Versioning (GitVersion):**
         *   Format: `InheritedBaseVersion-BranchName.Commits` (e.g., `1.1.0-new-user-auth.3` if branched from `develop` at `1.1.0-alpha.x`).

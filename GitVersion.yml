@@ -19,8 +19,8 @@ branches:
     # This regex will match any branch name that is NOT 'master' or 'develop'.
     # It also implicitly won't match 'release/...' or 'hotfix/...' if you add those
     # configurations later, because those more specific regexes would match first.
-    regex: ^(?!(master|develop|release|hotfix)$).*
-    label: use-branch-name
+    regex: ^(?!(master|develop|release|hotfix)$)(?<BranchName>.+)$
+    label: '{BranchName}'
     increment: Inherit
     source-branches: [develop, main, master]
     track-merge-target: false
