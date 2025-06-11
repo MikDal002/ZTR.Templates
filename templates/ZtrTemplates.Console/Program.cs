@@ -1,4 +1,5 @@
-﻿using Spectre.Console;
+﻿using Serilog;
+using Spectre.Console;
 using Spectre.Console.Cli;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,6 +47,7 @@ class Program
 
             config.SetExceptionHandler((ex, _) =>
             {
+                Log.Error(ex, "An unhandled exception occurred during command execution.");
                 AnsiConsole.WriteException(ex);
                 return -99;
             });

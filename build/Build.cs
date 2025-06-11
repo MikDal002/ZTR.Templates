@@ -65,6 +65,16 @@ public partial class Build : NukeBuild
             TestResultDirectory.DeleteDirectory();
         });
 
+    Target Format => _ => _
+        .Executes(() =>
+        {
+            DotNetTasks.DotNetFormat(s => s
+                .SetProject(Solution)
+                .When(_ => IsServerBuild, s => s)
+                .SetVerifyNoChanges(true)
+                .SetSeverity("error"));
+        });
+
     Target Restore => _ => _
         .DependsOn(Format)
         .Executes(() =>
@@ -125,16 +135,6 @@ public partial class Build : NukeBuild
                .SetRuntime(Runtime)
                .SetProjectFile(Solution));
        });
-
-    Target Format => _ => _
-        .Executes(() =>
-        {
-            DotNetTasks.DotNetFormat(s => s
-                .SetProject(Solution)
-                .When(_ => IsServerBuild, s => s)
-                    .SetVerifyNoChanges(true)
-                    .SetSeverity("error"));
-        });
 
     Target CreateVersionLabel => _ => _
         .TriggeredBy(Publish)
