@@ -5,7 +5,7 @@ using Nuke.Common.Utilities;
 
 [GitHubActions(
     "Create Velopack Release",
-    GitHubActionsImage.WindowsLatest,
+    GitHubActionsImage.WindowsLatest, GitHubActionsImage.UbuntuLatest,
     OnPushBranches = new[] { MasterBranch, MainBranch, DevelopBranch },
     PublishArtifacts = true,
     FetchDepth = 0,
@@ -64,6 +64,7 @@ partial class Build
                             $" --repoUrl {GitHubBrowseUrl}" +
                             $" --token {GitHubToken}" +
                             $" --publish" +
+                            $" --merge" +
                             $" --releaseName {releaseName}" +
                             $" --tag {tag}" +
                             $" --targetCommitish {GitVersion.Sha}";
