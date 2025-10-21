@@ -2,7 +2,7 @@ name: PR Assignee Check
 
 on:
   pull_request:
-    types: [opened, edited, synchronize, reopened, ready_for_review]
+    types: [opened, edited, synchronize, reopened, ready_for_review, assigned, unassigned]
 
 jobs:
   check-human-assignee:
