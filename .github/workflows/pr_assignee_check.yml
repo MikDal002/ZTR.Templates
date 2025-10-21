@@ -11,7 +11,8 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
-            const assignees = github.context.payload.pull_request.assignees;
+            const { context } = require('@actions/github');
+            const assignees = context.payload.pull_request.assignees;
             if (assignees.length === 0) {
               core.setFailed('No one is assigned to this pull request.');
               return;
