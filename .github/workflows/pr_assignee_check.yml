@@ -1,0 +1,22 @@
+name: PR Assignee Check
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened, ready_for_review]
+
+jobs:
+  check-human-assignee:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            const assignees = github.context.payload.pull_request.assignees;
+            if (assignees.length === 0) {
+              core.setFailed('No one is assigned to this pull request.');
+              return;
+            }
+            const humanAssignees = assignees.filter(assignee => assignee.type === 'User');
+            if (humanAssignees.length === 0) {
+              core.setFailed('No human is assigned to this pull request.');
+            }
