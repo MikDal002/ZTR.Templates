@@ -26,6 +26,12 @@ Tutaj prezentuję listę szablonów, które również warto rozważyć przy zacz
 
 - https://github.com/dotnet/templating/wiki/Available-templates-for-dotnet-new - lista różnych projektów z szablonami
 
+## Code Formatting
+
+This project uses a pre-commit hook to automatically format code using `dotnet format`. This ensures that all code committed to the repository follows a consistent style.
+
+The hook is configured automatically when you build the project, so there's no need to install it manually.
+
 ## Branching Strategy and Versioning
 
 This project uses a GitFlow-inspired branching model, automated with GitVersion. This ensures consistent versioning and a clear workflow for development, features, and fixes.
