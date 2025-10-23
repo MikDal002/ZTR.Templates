@@ -29,14 +29,14 @@ then
 fi
 
 DOTNET_VERSION_FULL=$(python3 -c "import json; print(json.load(open('global.json'))['sdk']['version'])")
-DOTNET_VERSION_MAJOR_MINOR=$(echo "$DOTNET_VERSION_FULL" | cut -d. -f1-2)
+DOTNET_VERSION_MAJOR=$(echo "$DOTNET_VERSION_FULL" | cut -d. -f1)
 
-if [[ -z "$DOTNET_VERSION_MAJOR_MINOR" ]]; then
+if [[ -z "$DOTNET_VERSION_MAJOR" ]]; then
     echo "❌ Error: Could not parse .NET SDK version from global.json."
     exit 1
 fi
 
-echo "Found .NET version ${DOTNET_VERSION_MAJOR_MINOR} in global.json."
+echo "Found .NET version ${DOTNET_VERSION_FULL} in global.json. Installing major version ${DOTNET_VERSION_MAJOR}."
 
 # --- Add Microsoft Package Repository ---
 # Based on official Microsoft instructions for Debian-based systems
@@ -55,9 +55,9 @@ sudo dpkg -i packages-microsoft-prod.deb
 rm packages-microsoft-prod.deb
 
 # --- Install the .NET SDK ---
-echo "Installing .NET SDK version ${DOTNET_VERSION_MAJOR_MINOR}..."
+echo "Installing .NET SDK version ${DOTNET_VERSION_MAJOR}..."
 sudo apt-get update
-sudo apt-get install -y "dotnet-sdk-${DOTNET_VERSION_MAJOR_MINOR}"
+sudo apt-get install -y "dotnet-sdk-${DOTNET_VERSION_MAJOR}"
 
 echo ""
 echo "✅ .NET SDK installation complete!"
