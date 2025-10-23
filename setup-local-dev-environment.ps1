@@ -28,23 +28,32 @@ if (-not $DotNetVersionFull) {
     exit 1
 }
 
-$DotNetVersionMajorMinor = ($DotNetVersionFull.Split('.'))[0..1] -join '.'
-Write-Output "Found .NET version ${DotNetVersionMajorMinor} in global.json."
+$versionParts = $DotNetVersionFull.Split('.')
+$majorVersion = [int]$versionParts[0]
+$minorVersion = [int]$versionParts[1]
+
+if ($majorVersion -eq 3) {
+    $DotNetVersionString = "${majorVersion}_${minorVersion}"
+} else {
+    $DotNetVersionString = $majorVersion
+}
+
+Write-Output "Found .NET version ${DotNetVersionFull} in global.json. Using version string '${DotNetVersionString}' for winget."
 
 # Construct the winget package ID and search for it
-$PackageId = "Microsoft.DotNet.SDK.${DotNetVersionMajorMinor}"
+$PackageId = "Microsoft.DotNet.SDK.${DotNetVersionString}"
 
 Write-Output "Searching for winget package: $PackageId"
-$wingetSearch = winget search --id $PackageId --accept-source-agreements
+$wingetSearch = winget search --id $PackageId --source winget --accept-source-agreements
 if (-not $wingetSearch) {
-    Write-Error "❌ Error: Could not find the .NET SDK version ${DotNetVersionMajorMinor} in the winget repository."
+    Write-Error "❌ Error: Could not find the .NET SDK version ${DotNetVersionString} in the winget repository."
     exit 1
 }
 
 # Install the .NET SDK
 Write-Output "Installing package $PackageId..."
 try {
-    winget install --id $PackageId --exact --accept-package-agreements --accept-source-agreements
+    winget install --id $PackageId --exact --source winget --accept-package-agreements --accept-source-agreements
 } catch {
     Write-Error "❌ winget installation failed. Please run the script again or install the .NET SDK manually."
     exit 1
