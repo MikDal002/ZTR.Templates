@@ -17,6 +17,34 @@ Krótko o projekcie
 
 Chciałbym, aby ten projekt był zbiorem dobrych praktyk, których chcę używać, za każdym razem, gdy zaczynam nowy program. 
 
+Setting up the development environment
+========
+
+To simplify and automate the setup of a local development environment, we provide two scripts that use native system package managers for a robust and future-proof installation:
+
+- `setup-local-dev-environment.sh` for Debian-based Linux (like Ubuntu)
+- `setup-local-dev-environment.ps1` for Windows
+
+These scripts will check if the .NET SDK is installed. If not, they will use the system's package manager (`apt` on Linux, `winget` on Windows) to install the correct .NET SDK version specified in the `global.json` file.
+
+This method is recommended as it handles system dependencies and PATH configuration automatically.
+
+**How to use:**
+
+**For Linux (Debian/Ubuntu):**
+*The script uses `sudo` and will prompt for your password.*
+```bash
+./setup-local-dev-environment.sh
+```
+
+**For Windows:**
+*You may need to run this script with Administrator privileges.*
+```powershell
+.\\setup-local-dev-environment.ps1
+```
+
+After running the script, please restart your terminal or shell session to apply the changes.
+
 Inne ciekawe szablony
 ========
 
