@@ -22,6 +22,11 @@ on:
       - develop
       - main
       - master
+    paths-ignore:
+      - 'docs/**'
+      - '.github/workflows/publish_docs.yml'
+      - '**/*.md'
+      - '**/*.mdx'
 
 jobs:
   windows-latest:
