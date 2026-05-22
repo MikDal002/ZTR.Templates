@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([["3220"],{1912(s){s.exports=JSON.parse('{"blogBasePath":"/ZTR.Templates/pr-60/blog","blogTitle":"Blog","authorsListPath":"/ZTR.Templates/pr-60/blog/authors"}')}}]);
