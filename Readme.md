@@ -26,6 +26,16 @@ Tutaj prezentuję listę szablonów, które również warto rozważyć przy zacz
 
 - https://github.com/dotnet/templating/wiki/Available-templates-for-dotnet-new - lista różnych projektów z szablonami
 
+## Konfiguracja repozytorium GitHub po sklonowaniu
+
+Aby walidacja tytułów PR poprawnie przekładała się na historię commita na głównej gałęzi, należy odpowiednio skonfigurować repozytorium w ustawieniach GitHub (**Settings -> General -> Pull Requests**):
+
+1. **Włącz opcję "Allow squash merging"**.
+2. W sekcji **"Default commit message"** dla squash merge'y wybierz opcję **"Pull request title"**.
+
+Jest to niezbędne, ponieważ GitHub nie pozwala na konfigurację tych ustawień za pomocą kodu ("as-a-code"). Dzięki temu zwalidowany tytuł Pull Requesta automatycznie stanie się komunikatem commita podczas łączenia zmian.
+
+
 ## Branching Strategy and Versioning
 
 This project uses a GitFlow-inspired branching model, automated with GitVersion. This ensures consistent versioning and a clear workflow for development, features, and fixes.
