@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="atom.xsl"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://MikDal002.github.io/ZTR.Templates/pr-64/blog</id>
+    <title>ZTR.Templates Blog</title>
+    <updated>2026-05-23T00:00:00.000Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://MikDal002.github.io/ZTR.Templates/pr-64/blog"/>
+    <subtitle>ZTR.Templates Blog</subtitle>
+    <icon>https://MikDal002.github.io/ZTR.Templates/pr-64/img/applogo.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[My AI prompts for code review]]></title>
+        <id>https://MikDal002.github.io/ZTR.Templates/pr-64/blog/ai-prompts-for-code-review-blog-post</id>
+        <link href="https://MikDal002.github.io/ZTR.Templates/pr-64/blog/ai-prompts-for-code-review-blog-post"/>
+        <updated>2026-05-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Here is my small collection of AI prompts.]]></summary>
+        <content type="html"><![CDATA[<p>Here is my small collection of AI prompts.
+Most probably I should change them into the SKILLs or something like that, but as I share them across many other agentic tools it is not such easy.</p>
+<p>Prompts in this post:</p>
+<ul>
+<li class=""><a href="https://mikdal002.github.io/ZTR.Templates/pr-64/blog/ai-prompts-for-code-review-blog-post#what-is-important-for-me-in-ai-review-prompts" class="">What is important for me in AI review prompts</a>
+<ul>
+<li class=""><a href="https://mikdal002.github.io/ZTR.Templates/pr-64/blog/ai-prompts-for-code-review-blog-post#one-comment-per-file" class="">One comment per file</a></li>
+<li class=""><a href="https://mikdal002.github.io/ZTR.Templates/pr-64/blog/ai-prompts-for-code-review-blog-post#assess-your-work" class="">Assess your work!</a></li>
+</ul>
+</li>
+<li class=""><a href="https://mikdal002.github.io/ZTR.Templates/pr-64/blog/ai-prompts-for-code-review-blog-post#prompt-you-hate-this-implementation" class="">[PROMPT] You HATE this implementation</a>
+<ul>
+<li class=""><a href="https://mikdal002.github.io/ZTR.Templates/pr-64/blog/ai-prompts-for-code-review-blog-post#prompt" class="">Prompt</a></li>
+</ul>
+</li>
+</ul>
+<!-- -->
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-is-important-for-me-in-ai-review-prompts">What is important for me in AI review prompts<a href="https://mikdal002.github.io/ZTR.Templates/pr-64/blog/ai-prompts-for-code-review-blog-post#what-is-important-for-me-in-ai-review-prompts" class="hash-link" aria-label="Direct link to What is important for me in AI review prompts" title="Direct link to What is important for me in AI review prompts" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="one-comment-per-file">One comment per file<a href="https://mikdal002.github.io/ZTR.Templates/pr-64/blog/ai-prompts-for-code-review-blog-post#one-comment-per-file" class="hash-link" aria-label="Direct link to One comment per file" title="Direct link to One comment per file" translate="no">​</a></h3>
+<p>I've noticed that, nevertheless of the tool I use (Copilot CLI, Gemini CLI, Jules, droid) having review in a terminal is really cumbersome. The wall of text is unreadable and unmanageable.
+That's why it is beneficial to instruct an agent to:</p>
+<ol>
+<li class="">Create every review comment in a separate file.</li>
+<li class="">Open those files in <code>code</code> - this trick saves a ton of time. Especially that I close file in IDE, as I am done with them or moving to folder like "closed" or even deleting to forget. Everything to keep the environment clean.</li>
+</ol>
+<p>This allows me to carefully review file by file, issue by issue, and not being overwhelmed by the amount.
+I can also put comments in the file and ask an agent to review my comments and redo its review (sic!) based on my input, and then open the file in code again of course!</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="assess-your-work">Assess your work!<a href="https://mikdal002.github.io/ZTR.Templates/pr-64/blog/ai-prompts-for-code-review-blog-post#assess-your-work" class="hash-link" aria-label="Direct link to Assess your work!" title="Direct link to Assess your work!" translate="no">​</a></h3>
+<p>Another important thing is to ask an Agent for assessment of it's own work. This is quite common technique, which you can find across many prompts. I've noticed that this significantly increases the quality of the results. I also love adding things like "Add 3 argument pro your proposals and against" to some of the prompts if I want the more detailed insight.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="prompt-you-hate-this-implementation">[PROMPT] You HATE this implementation<a href="https://mikdal002.github.io/ZTR.Templates/pr-64/blog/ai-prompts-for-code-review-blog-post#prompt-you-hate-this-implementation" class="hash-link" aria-label="Direct link to [PROMPT] You HATE this implementation" title="Direct link to [PROMPT] You HATE this implementation" translate="no">​</a></h2>
+<p>Base for this one is taken from here: <a href="https://www.reddit.com/r/ClaudeAI/comments/1q5a90l/so_i_stumbled_across_this_prompt_hack_a_couple/" target="_blank" rel="noopener noreferrer" class="">https://www.reddit.com/r/ClaudeAI/comments/1q5a90l/so_i_stumbled_across_this_prompt_hack_a_couple/</a>.
+I found it when I hadn't access to my own prompts and I needed something to run with Google's Jules.
+As Jules reject writing normal review comments on GitHub I have developed something like that.</p>
+<p>So this is oriented to work well in web only interface of Google's Jules - notice the hard break of lines, what instruct this tool to also keep lines short.
+Of course, you can instruct Jules to send this review as a pull request, but I never found it comfortable.</p>
+<p>Notice the last sentence, which tells to propose split of the PR.
+My PRs too often contains too many changes, as I really like to improve the code base as I am reading it.</p>
+<p>This is the first prompt I've met which takes "HATE" approach.
+In comparison to the approach "review DRY, SOLID..." there is a visible difference.
+It is hard to say for me at this moment how to call it, but it seems to be a good addition to more structured approach.</p>
+<p>So the main sentence here is "<strong>and you HATE this implementation</strong>", which sets the tone and, surprisingly, approach. It must be interesting training data, that the hateful reviewers has something valuable to say <!-- -->:D<!-- -->.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="prompt">Prompt<a href="https://mikdal002.github.io/ZTR.Templates/pr-64/blog/ai-prompts-for-code-review-blog-post#prompt" class="hash-link" aria-label="Direct link to Prompt" title="Direct link to Prompt" translate="no">​</a></h3>
+<div class="language-md codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-md codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token plain">Do a git diff and pretend you're a senior dev doing a code review from current branch against the </span><span class="token code-snippet code keyword" style="color:#00009f">`release`</span><span class="token plain"> branch, and you HATE this implementation. What would you criticize? What edge cases am I missing? </span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"> </span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">Every comment write to separate {number}-{slug}.md file. under /.review/ folder. Number is just a next unique number, like a local id.</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"> </span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">Every file should have a structure like a proper review comment on github: </span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token list punctuation" style="color:#393A34">-</span><span class="token plain"> Location - put the problem context, where to find an issue you are criticizing. Say what this/those lines of code were supposed to do.</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">  Put at least one line before and one line after. You can add more lines if it is needed for context.</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token list punctuation" style="color:#393A34">-</span><span class="token plain"> Say what is wrong and why in a professional way. </span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token list punctuation" style="color:#393A34">-</span><span class="token plain"> Propose a solution. If appropriate provide a code block. But only for simple changes.</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token list punctuation" style="color:#393A34">-</span><span class="token plain"> Do not touch actual code. you can only create those md files under /.review/ folder.</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token list punctuation" style="color:#393A34">-</span><span class="token plain"> Assess importance of the comment review in scale from 1 to 6, when 6 is an excellent, easy to implement and very valuable improvement and 1 is a poor idea, which you are unsure.</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token list punctuation" style="color:#393A34">-</span><span class="token plain"> Keep lines short, to keep them readable in narrow window.</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token title important punctuation" style="color:#393A34">##</span><span class="token title important"> Example of expected output</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">Please format your response exactly like the example below for every issue you find.</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">Filename:</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">/.review/01-inefficient-memory-filtering.md</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">````md</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token title important punctuation" style="color:#393A34">#</span><span class="token title important"> Location and context</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token code-snippet code keyword" style="color:#00009f">`Controllers/OrderController.cs:29-35`</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    </span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token code keyword" style="color:#00009f">    This block is supposed to retrieve a user's orders asynchronously, calculate the </span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    total amount, and return it as an API response.</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    </span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token code keyword" style="color:#00009f">    ```csharp</span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    28:  // Get user orders and calculate total</span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    29:  [HttpGet("{userId}/summary")]</span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    30:  public IActionResult GetOrderSummary(int userId)</span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    31:  {</span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    32:      var orders = _orderService.GetOrdersAsync(userId).Result;</span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    33:      var total = orders.Sum(o =&gt; o.Amount);</span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    34:      return Ok(new { UserId = userId, Total = total });</span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    35:  }</span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    36:</span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    ```</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    </span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token code keyword" style="color:#00009f">    # What is wrong</span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    Using `.Result` (or `.Wait()`) on an asynchronous Task inside a synchronous method </span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    is a fatal architectural flaw known as "sync-over-async". By blocking the current </span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    thread while waiting for the Task to complete, you are holding a thread hostage. </span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    In an ASP.NET Core environment, doing this prevents the thread from returning to </span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    the Thread Pool to serve other requests.</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token code keyword" style="color:#00009f">    The critical edge case you are missing here is application behavior under load. </span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    While this works fine on your local machine with 1 user, during peak traffic, </span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    a burst of concurrent requests will instantly exhaust the Thread Pool. This will </span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    cause a deadlock or thread pool starvation, bringing the entire application to </span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    a grinding halt (503 Service Unavailable). This implementation is actively dangerous </span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    to system stability.</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">  </span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token code keyword" style="color:#00009f">    # Proposed solution</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">  </span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token code keyword" style="color:#00009f">    Embrace "async all the way down". Change the controller action to be asynchronous </span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    and use the await keyword so the thread is yielded back to the pool during the </span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    I/O operation.</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">  </span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token code keyword" style="color:#00009f">    ```csharp</span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    [HttpGet("{userId}/summary")]</span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    public async Task&lt;IActionResult&gt; GetOrderSummary(int userId)</span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    {</span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">        var orders = await _orderService.GetOrdersAsync(userId);</span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">        var total = orders.Sum(o =&gt; o.Amount);</span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">        return Ok(new { UserId = userId, Total = total });</span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    }</span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    ```</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token code keyword" style="color:#00009f">    # Assessment</span><br></div><div class="token-line" style="color:#393A34"><span class="token code keyword" style="color:#00009f">    6/6 - it is easy to do and makes a code clean.</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">````</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">If you think that, the PR is doing way too much, propose in separate file how to split it into smaller ones.</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">Order them from smallest to biggest.</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></div></code></pre></div></div>]]></content>
+        <author>
+            <name>Mikołaj Dalecki</name>
+            <uri>https://mikolajdalecki.com</uri>
+        </author>
+        <category label="AI Prompts" term="AI Prompts"/>
+        <category label="Google Jules" term="Google Jules"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Welcome]]></title>
+        <id>https://MikDal002.github.io/ZTR.Templates/pr-64/blog/welcome</id>
+        <link href="https://MikDal002.github.io/ZTR.Templates/pr-64/blog/welcome"/>
+        <updated>2021-08-26T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Docusaurus blogging features are powered by the blog plugin.]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://docusaurus.io/docs/blog" target="_blank" rel="noopener noreferrer" class="">Docusaurus blogging features</a> are powered by the <a href="https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-blog" target="_blank" rel="noopener noreferrer" class="">blog plugin</a>.</p>
+<p>Here are a few tips you might find useful.</p>
+<!-- -->
+<p>Simply add Markdown files (or folders) to the <code>blog</code> directory.</p>
+<p>Regular blog authors can be added to <code>authors.yml</code>.</p>
+<p>The blog post date can be extracted from filenames, such as:</p>
+<ul>
+<li class=""><code>2019-05-30-welcome.md</code></li>
+<li class=""><code>2019-05-30-welcome/index.md</code></li>
+</ul>
+<p>A blog post folder can be convenient to co-locate blog post images:</p>
+<p><img decoding="async" loading="lazy" alt="Docusaurus Plushie" src="https://mikdal002.github.io/ZTR.Templates/pr-64/assets/images/docusaurus-plushie-banner-a60f7593abca1e3eef26a9afa244e4fb.jpeg" width="1500" height="500" class="img_ev3q"></p>
+<p>The blog supports tags as well!</p>
+<p><strong>And if you don't want a blog</strong>: just delete this directory, and use <code>blog: false</code> in your Docusaurus config.</p>]]></content>
+        <author>
+            <name>Sébastien Lorber</name>
+            <uri>https://sebastienlorber.com</uri>
+        </author>
+        <author>
+            <name>Yangshun Tay</name>
+            <uri>https://linkedin.com/in/yangshun</uri>
+        </author>
+        <category label="Facebook" term="Facebook"/>
+        <category label="Hello" term="Hello"/>
+        <category label="Docusaurus" term="Docusaurus"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[MDX Blog Post]]></title>
+        <id>https://MikDal002.github.io/ZTR.Templates/pr-64/blog/mdx-blog-post</id>
+        <link href="https://MikDal002.github.io/ZTR.Templates/pr-64/blog/mdx-blog-post"/>
+        <updated>2021-08-01T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Blog posts support Docusaurus Markdown features, such as MDX.]]></summary>
+        <content type="html"><![CDATA[<p>Blog posts support <a href="https://docusaurus.io/docs/markdown-features" target="_blank" rel="noopener noreferrer" class="">Docusaurus Markdown features</a>, such as <a href="https://mdxjs.com/" target="_blank" rel="noopener noreferrer" class="">MDX</a>.</p>
+<div class="theme-admonition theme-admonition-tip admonition_xJq3 alert alert--success"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 12 16"><path fill-rule="evenodd" d="M6.5 0C3.48 0 1 2.19 1 5c0 .92.55 2.25 1 3 1.34 2.25 1.78 2.78 2 4v1h5v-1c.22-1.22.66-1.75 2-4 .45-.75 1-2.08 1-3 0-2.81-2.48-5-5.5-5zm3.64 7.48c-.25.44-.47.8-.67 1.11-.86 1.41-1.25 2.06-1.45 3.23-.02.05-.02.11-.02.17H5c0-.06 0-.13-.02-.17-.2-1.17-.59-1.83-1.45-3.23-.2-.31-.42-.67-.67-1.11C2.44 6.78 2 5.65 2 5c0-2.2 2.02-4 4.5-4 1.22 0 2.36.42 3.22 1.19C10.55 2.94 11 3.94 11 5c0 .66-.44 1.78-.86 2.48zM4 14h5c-.23 1.14-1.3 2-2.5 2s-2.27-.86-2.5-2z"></path></svg></span>tip</div><div class="admonitionContent_BuS1"><p>Use the power of React to create interactive blog posts.</p></div></div>
+<!-- -->
+<p>For example, use JSX to create an interactive button:</p>
+<div class="language-js codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-js codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token operator" style="color:#393A34">&lt;</span><span class="token plain">button onClick</span><span class="token operator" style="color:#393A34">=</span><span class="token punctuation" style="color:#393A34">{</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"> </span><span class="token arrow operator" style="color:#393A34">=&gt;</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">alert</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string" style="color:#e3116c">'button clicked!'</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">}</span><span class="token operator" style="color:#393A34">&gt;</span><span class="token maybe-class-name">Click</span><span class="token plain"> me</span><span class="token operator" style="color:#393A34">!</span><span class="token operator" style="color:#393A34">&lt;</span><span class="token operator" style="color:#393A34">/</span><span class="token plain">button</span><span class="token operator" style="color:#393A34">&gt;</span><br></div></code></pre></div></div>
+<button>Click me!</button>]]></content>
+        <author>
+            <name>Sébastien Lorber</name>
+            <uri>https://sebastienlorber.com</uri>
+        </author>
+        <category label="Docusaurus" term="Docusaurus"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Long Blog Post]]></title>
+        <id>https://MikDal002.github.io/ZTR.Templates/pr-64/blog/long-blog-post</id>
+        <link href="https://MikDal002.github.io/ZTR.Templates/pr-64/blog/long-blog-post"/>
+        <updated>2019-05-29T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This is the summary of a very long blog post,]]></summary>
+        <content type="html"><![CDATA[<p>This is the summary of a very long blog post,</p>
+<p>Use a <code>{/*</code> <code>truncate</code> <code>*/}</code> comment to limit blog post size in the list view.</p>
+<!-- -->
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>]]></content>
+        <author>
+            <name>Yangshun Tay</name>
+            <uri>https://linkedin.com/in/yangshun</uri>
+        </author>
+        <category label="Hello" term="Hello"/>
+        <category label="Docusaurus" term="Docusaurus"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[First Blog Post]]></title>
+        <id>https://MikDal002.github.io/ZTR.Templates/pr-64/blog/first-blog-post</id>
+        <link href="https://MikDal002.github.io/ZTR.Templates/pr-64/blog/first-blog-post"/>
+        <updated>2019-05-28T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Lorem ipsum dolor sit amet...]]></summary>
+        <content type="html"><![CDATA[<p>Lorem ipsum dolor sit amet...</p>
+<!-- -->
+<p>...consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>]]></content>
+        <author>
+            <name>Sébastien Lorber</name>
+            <uri>https://sebastienlorber.com</uri>
+        </author>
+        <author>
+            <name>Yangshun Tay</name>
+            <uri>https://linkedin.com/in/yangshun</uri>
+        </author>
+        <category label="Hola" term="Hola"/>
+        <category label="Docusaurus" term="Docusaurus"/>
+    </entry>
+</feed>
