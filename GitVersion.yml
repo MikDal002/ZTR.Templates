@@ -3,7 +3,7 @@ workflow: GitFlow/v1 # Temporarily commented out to let GitVersion infer from br
 branches:
   master:
     regex: ^(master|main)$
-    label: ''
+    label: ""
     increment: Patch
     track-merge-target: false
     is-release-branch: true
@@ -20,7 +20,7 @@ branches:
     # It also implicitly won't match 'release/...' or 'hotfix/...' if you add those
     # configurations later, because those more specific regexes would match first.
     regex: ^(?!(master|develop|release|hotfix)$)(?<BranchName>.+)$
-    label: '{BranchName}'
+    label: "{BranchName}"
     increment: Inherit
     source-branches: [develop, main, master]
     track-merge-target: false

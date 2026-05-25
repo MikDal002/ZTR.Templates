@@ -1,0 +1,23 @@
+name: Check Formatting (Non-C#)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  prettier:
+    name: Check Markdown/JSON/YML formatting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Check formatting with Prettier
+        # The --ignore-path allows us to ignore build artifacts or templates if needed
+        run: npx prettier --check .

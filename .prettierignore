@@ -1,0 +1,12 @@
+# C# files and project definitions managed by dotnet format
+*.cs
+*.csproj
+*.sln
+*.props
+*.targets
+
+# Build and test output directories
+bin/
+obj/
+TestResults/
+.nuke/
