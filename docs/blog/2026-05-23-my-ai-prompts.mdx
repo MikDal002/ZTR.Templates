@@ -1,12 +1,15 @@
 ---
-slug: ai-prompts-for-code-review-blog-post
-title: My AI prompts for code review
+slug: ai-prompts-for-code-review
+title: AI prompts for code review that works (at least for me)
 authors: [mikolaj-dalecki]
-tags: [ai-prompts, google-jules]
+tags: [ai-prompts, code-review, productivity, prompt-engineering]
 ---
 
-Here is my small collection of AI prompts. 
-Most probably I should change them into skills or something similar, but since I share them across many other agentic tools it is not that easy.
+Here is my small collection of AI prompts for code review. 
+Actually I focus on two main ideas: one comment per file, and asking the agent to rate its own work.
+Below I share both, my insights on those approaches and ready-to-paste prompts.
+
+{/* truncate */}
 
 Prompts in this post:
 
@@ -16,28 +19,36 @@ Prompts in this post:
 - [\[PROMPT\] You HATE this implementation](#prompt-you-hate-this-implementation)
   - [Prompt](#prompt)
 
-{/* truncate */}
 
 ## What is important for me in AI review prompts
 
 ### One comment per file
 
-I've noticed that, nevertheless of the tool I use (Copilot CLI, Gemini CLI, Jules, droid) having review in a terminal is really cumbersome. The wall of text is unreadable and unmanageable. 
+I've noticed that, regardless of the tool I use (Copilot CLI, Gemini CLI, Jules, droid) reviewing code directly in terminal is  extremely cumbersome. 
+The wall of text is unreadable and unmanageable. 
 That's why it is beneficial to instruct an agent to:
 1. Create every review comment in a separate file. 
-2. Open those files in `code` - this trick saves a ton of time. Especially that I close file in IDE, as I am done with them or moving to folder like "closed" or even deleting to forget. Everything to keep the environment clean.
+2. Open those files in `code` - this trick saves a ton of time. 
+Especially that I close file in IDE, as I am done with them or moving to folder like "closed" or even deleting to forget. 
+Everything to keep the environment clean.
 
 This allows me to carefully review file by file, issue by issue, and not being overwhelmed by the amount. 
 I can also put comments in the file and ask an agent to review my comments and redo its review (sic!) based on my input, and then open the file in code again of course!
 
 ### Assess your work!
 
-Another important thing is to ask an Agent for assessment of its own work. This is quite common technique, which you can find across many prompts. I've noticed that this significantly increases the quality of the results. I also love adding things like "Add 3 argument pro your proposals and against" to some of the prompts if I want the more detailed insight.
+Another important thing is to ask an Agent for assessment of its own work. 
+This is quite common technique, which you can find across many prompts. 
+I've noticed that this significantly increases the quality of the results. 
+I also love adding things like "Add 3 argument pro your proposals and against" to some of the prompts if I want the more detailed insight.
 
 ## [PROMPT] You HATE this implementation
 
-Base for this one is taken from here: https://www.reddit.com/r/ClaudeAI/comments/1q5a90l/so_i_stumbled_across_this_prompt_hack_a_couple/.
-I found it when I hadn't access to my own prompts and I needed something to run with Google's Jules. 
+Base for this one is taken from [post made by u/cleancodecrew in r/ClaudeAI, at the beggining of 2026](https://www.reddit.com/r/ClaudeAI/comments/1q5a90l/so_i_stumbled_across_this_prompt_hack_a_couple/).
+
+> Do a git diff and pretend you're a senior dev doing a code review and you HATE this implementation. What would you criticize? What edge cases am I missing?
+
+I found it when I didn't have access to my own prompts and I needed something to run with Google's Jules. 
 As Jules rejects writing normal review comments on GitHub I have developed something like that.
 
 So this is oriented to work well in web only interface of Google's Jules - notice the hard break of lines, what instruct this tool to also keep lines short. 
@@ -47,18 +58,29 @@ Notice the last sentence, which instruct proposing split of the PR.
 My PRs too often contains too many changes, as I really like to improve the code base as I am reading it.
 
 This is the first prompt I've met which takes "HATE" approach. 
-In comparison to the approach "review DRY, SOLID..." there is a visible difference. 
-It is hard to say for me at this moment how to call it, but it seems to be a good addition to more structured approach.
+In comparison to the approach "review DRY, SOLID..." there is a visible difference.
+I cannot say it is better, but it is... different. 
+And that's why it is valuable - it brings another perspective.
 
-So the main sentence here is "**and you HATE this implementation**", which sets the tone and, surprisingly, approach. It must be interesting training data, that the hateful reviewers has something valuable to say :D.
+It is hard to say for me at this moment how to call this perspective, but it seems to be a good addition to more structured approach.
+I would say this is more like a very good teacher, who has bad day. 
+When that teacher is too sincere, and what's you to get off, then finds every possible issue in your code.
+That makes it finding more interesting issues, then those structured ones, which are more like a checklist.
+
+So the main sentence here is "**and you HATE this implementation**", which sets the tone and, surprisingly, approach. 
+It must be interesting training data, that the hateful reviewers has something valuable to say :D.
+
+:::note[This is also called "adversarial code review".]
+:::
 
 ### Prompt
 
-:::tip[One thing to change]
-- In first line there is a name of branch `main` which points to the root of the current branch. Adjust it accordingly to you specific case. 
-  I would love to have some lightweight template application like Ditto, which would ask me to change things like that on every paste.
-
+:::info[One thing to change]
+In first line there is a name of branch `main` which points to the root of the current branch. 
+Adjust it accordingly to you specific case. 
 :::
+
+I would love to have some lightweight template application like Ditto, which would ask me to change things like that on every paste.
 
 `````md
 Do a git diff and pretend you're a senior dev doing a code review from current branch against the `main` branch, and you HATE this implementation. What would you criticize? What edge cases am I missing? 
@@ -66,10 +88,13 @@ Do a git diff and pretend you're a senior dev doing a code review from current b
 Every comment write to separate {number}-{slug}.md file. under /.review/ folder. Number is just a next unique number, like a local id.
  
 Every file should have a structure like a proper review comment on github: 
-- Location - put the problem context, where to find an issue you are criticizing. Say what this/those lines of code were supposed to do.
-  Put at least one line before and one line after. You can add more lines if it is needed for context.
+- Location - put the problem context, where to find an issue you are criticizing. 
+  Say what this/those lines of code were supposed to do.
+  Put at least one line before and one line after. 
+  You can add more lines if it is needed for context.
 - Say what is wrong and why in a professional way. 
-- Propose a solution. If appropriate provide a code block. But only for simple changes.
+- Propose a solution. If appropriate provide a code block. 
+  But only for simple changes.
 - Do not touch actual code. you can only create those md files under /.review/ folder.
 - Assess importance of the comment review in scale from 1 to 6, when 6 is an excellent, easy to implement and very valuable improvement and 1 is a poor idea, which you are unsure.
 - Keep lines short, to keep them readable in narrow window.
@@ -136,3 +161,23 @@ If you think that, the PR is doing way too much, propose in separate file how to
 Order them from smallest to biggest.
 
 `````
+
+Doing a code review is just only one usage of above prompt.
+You can easily change the role of AI agent to be for example, an expert about blogging.
+Then you can ask it to review your blog post and create comments in separate files, which you can then easily review and implement.
+
+
+# Foreword
+
+Using an AI agent todays seems more like a duty than a choice.
+I am observing how more and more tools are growing around to replace everything what I do. 
+But I cannot trust AI to work well enough. 
+I even observe something what I call "Hidden AI Debt" which is created, when too much trust is put into AI.
+But this is a good topic for another blog post. 
+
+Nevertheless, this post shows my approach about working "Human First, AI augmented".
+Because it would be a lie to say that AI does not bring any value as an element of the toolchain.
+
+I plan to move here rest of my review prompts, which I use across many tools, as soon as I refine them.
+This was the first version and I hope you liked it! 
+If you see better way how to share them with others or you have some suggestions how to improve them, please let me know in the comments.
