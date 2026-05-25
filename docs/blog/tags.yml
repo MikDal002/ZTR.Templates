@@ -22,8 +22,3 @@ ai-prompts:
   label: AI Prompts
   permalink: /ai-prompts
   description: AI Prompts tag description
-
-google-jules:
-  label: Google Jules
-  permalink: /google-jules
-  description: Google Jules tag description
