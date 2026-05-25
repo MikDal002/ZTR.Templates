@@ -6,7 +6,7 @@ tags: [ai-prompts, google-jules]
 ---
 
 Here is my small collection of AI prompts. 
-Most probably I should change them into the SKILLs or something like that, but as I share them across many other agentic tools it is not such easy.
+Most probably I should change them into skills or something similar, but since I share them across many other agentic tools it is not that easy.
 
 Prompts in this post:
 
@@ -32,18 +32,18 @@ I can also put comments in the file and ask an agent to review my comments and r
 
 ### Assess your work!
 
-Another important thing is to ask an Agent for assessment of it's own work. This is quite common technique, which you can find across many prompts. I've noticed that this significantly increases the quality of the results. I also love adding things like "Add 3 argument pro your proposals and against" to some of the prompts if I want the more detailed insight.
+Another important thing is to ask an Agent for assessment of its own work. This is quite common technique, which you can find across many prompts. I've noticed that this significantly increases the quality of the results. I also love adding things like "Add 3 argument pro your proposals and against" to some of the prompts if I want the more detailed insight.
 
 ## [PROMPT] You HATE this implementation
 
 Base for this one is taken from here: https://www.reddit.com/r/ClaudeAI/comments/1q5a90l/so_i_stumbled_across_this_prompt_hack_a_couple/.
 I found it when I hadn't access to my own prompts and I needed something to run with Google's Jules. 
-As Jules reject writing normal review comments on GitHub I have developed something like that.
+As Jules rejects writing normal review comments on GitHub I have developed something like that.
 
 So this is oriented to work well in web only interface of Google's Jules - notice the hard break of lines, what instruct this tool to also keep lines short. 
 Of course, you can instruct Jules to send this review as a pull request, but I never found it comfortable.
 
-Notice the last sentence, which tells to propose split of the PR.
+Notice the last sentence, which instruct proposing split of the PR.
 My PRs too often contains too many changes, as I really like to improve the code base as I am reading it.
 
 This is the first prompt I've met which takes "HATE" approach. 
@@ -54,8 +54,14 @@ So the main sentence here is "**and you HATE this implementation**", which sets 
 
 ### Prompt
 
+:::tip[One thing to change]
+- In first line there is a name of branch `main` which points to the root of the current branch. Adjust it accordingly to you specific case. 
+  I would love to have some lightweight template application like Ditto, which would ask me to change things like that on every paste.
+
+:::
+
 `````md
-Do a git diff and pretend you're a senior dev doing a code review from current branch against the `release` branch, and you HATE this implementation. What would you criticize? What edge cases am I missing? 
+Do a git diff and pretend you're a senior dev doing a code review from current branch against the `main` branch, and you HATE this implementation. What would you criticize? What edge cases am I missing? 
  
 Every comment write to separate {number}-{slug}.md file. under /.review/ folder. Number is just a next unique number, like a local id.
  
