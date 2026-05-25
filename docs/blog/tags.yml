@@ -17,3 +17,8 @@ hola:
   label: Hola
   permalink: /hola
   description: Hola tag description
+
+ai-prompts:
+  label: AI Prompts
+  permalink: /ai-prompts
+  description: AI Prompts tag description
