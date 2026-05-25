@@ -1,0 +1,15 @@
+version: "0.2"
+language: en
+allowCompoundWords: true
+
+words:
+  - docusaurus
+  - Velopack
+  - ZTR
+  - Ztr
+
+ignorePaths:
+  - "**/node_modules/**"
+  - "**/bin/**"
+  - "**/obj/**"
+  - "docs/build/**"

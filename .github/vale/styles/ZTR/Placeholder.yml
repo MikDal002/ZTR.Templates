@@ -1,0 +1,8 @@
+extends: existence
+message: "Replace placeholder token '%s'."
+level: error
+ignorecase: true
+tokens:
+  - TBD
+  - FIXME
+  - XXX

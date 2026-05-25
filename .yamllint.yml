@@ -1,0 +1,13 @@
+extends: default
+
+ignore: |
+  **/node_modules/**
+  **/bin/**
+  **/obj/**
+  docs/build/**
+
+rules:
+  line-length:
+    max: 140
+    level: warning
+  truthy: disable
