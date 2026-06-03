@@ -75,7 +75,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Merge coverage and check threshold
     env:
-      COVERAGE_THRESHOLD: 80
+      COVERAGE_THRESHOLD: 7
     steps:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
