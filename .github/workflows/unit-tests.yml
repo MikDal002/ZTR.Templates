@@ -51,7 +51,7 @@ jobs:
             --logger "trx" \
             --collect:"XPlat Code Coverage" \
             --results-directory ./coverage \
-            /p:TreatWarningsAsErrors=true /warnaserror
+            -p:TreatWarningsAsErrors=true -warnaserror
 
       - name: Upload coverage artifacts
         uses: actions/upload-artifact@v4
