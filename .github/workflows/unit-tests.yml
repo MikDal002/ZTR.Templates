@@ -42,16 +42,16 @@ jobs:
         run: dotnet build ZtrDotnetTemplates.sln --no-restore --configuration Release
 
       - name: Test
-        shell: bash
-        run: |
-          dotnet test ZtrDotnetTemplates.sln \
-            --configuration Release \
-            --no-build \
-            --logger "console;verbosity=normal" \
-            --logger "trx" \
-            --collect:"XPlat Code Coverage" \
-            --results-directory ./coverage \
-            -p:TreatWarningsAsErrors=true -warnaserror
+        run: >-
+          dotnet test ZtrDotnetTemplates.sln
+          --configuration Release
+          --no-build
+          --logger "console;verbosity=normal"
+          --logger "trx"
+          --collect:"XPlat Code Coverage"
+          --results-directory ./coverage
+          -p:TreatWarningsAsErrors=true
+          -warnaserror
 
       - name: Upload coverage artifacts
         uses: actions/upload-artifact@v4
