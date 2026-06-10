@@ -78,6 +78,10 @@ jobs:
     env:
       COVERAGE_THRESHOLD: 7
     steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+        
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
@@ -100,6 +104,8 @@ jobs:
         with:
           coverage-files: coverage-report/Cobertura.xml
           fail-under: '80'
+          create-badge: 'true'
+          compare-branch: origin/${{ github.base_ref }}
 
       - name: Add coverage gate summary to SummaryGithub
         id: coverage_gate
