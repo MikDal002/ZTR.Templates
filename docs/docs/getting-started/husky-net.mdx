@@ -1,0 +1,11 @@
+
+# Husky.Net
+
+Husky.Net is used to manage Git hooks. 
+It currently handles pre-commit hooks for 'dotnet format'.
+Configuration can be found in the `.husky/pre-commit` and `task-runner.json` files.
+
+## Installation
+
+The installation process is uniquely integrated via the `Directory.Build.targets` file.
+This has its disadvantages (such as a possible deadlock during the first setup), but also has the advantage that the installation is done automatically during the first build, so there is no need to do it manually.
