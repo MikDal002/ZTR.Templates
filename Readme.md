@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="templates/ZtrTemplates.Console/applogo.png" width="200" alt="ZTR Templates Logo">
+  <img src="src/ZtrTemplates.Console/applogo.png" width="200" alt="ZTR Templates Logo">
 </p>
 
 Generowanie kluczy SSH
