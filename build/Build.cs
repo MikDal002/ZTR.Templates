@@ -1,13 +1,3 @@
-using Nuke.Common;
-using Nuke.Common.Git;
-using Nuke.Common.IO;
-using Nuke.Common.ProjectModel;
-using Nuke.Common.Tooling;
-using Nuke.Common.Tools.DotNet;
-using Nuke.Common.Tools.Git;
-using Nuke.Common.Tools.GitVersion;
-using Nuke.Common.Utilities.Collections;
-using Serilog;
 using System.Linq;
 
 public partial class Build : NukeBuild
@@ -48,7 +38,7 @@ public partial class Build : NukeBuild
 
     AbsolutePath PublishedProjectAsZip =>
         PackagesDirectory / NameOfProjectToBePublished + ".zip";
-    AbsolutePath SourceDirectory => RootDirectory / "templates";
+    AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath PublishDirectory => RootDirectory / "output";
     AbsolutePath PackagesDirectory => RootDirectory / "packages";
     AbsolutePath TestResultDirectory => RootDirectory / "testResults";
