@@ -48,7 +48,7 @@ public partial class Build : NukeBuild
 
     AbsolutePath PublishedProjectAsZip =>
         PackagesDirectory / NameOfProjectToBePublished + ".zip";
-    AbsolutePath SourceDirectory => RootDirectory / "templates";
+    AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath PublishDirectory => RootDirectory / "output";
     AbsolutePath PackagesDirectory => RootDirectory / "packages";
     AbsolutePath TestResultDirectory => RootDirectory / "testResults";

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <!-- Part of configuration is shared in server/Directory.Build.props file -->
@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\templates\ZtrTemplates.Configuration.Shared\ZtrTemplates.Configuration.Shared.csproj" />
+    <ProjectReference Include="..\src\ZtrTemplates.Configuration.Shared\ZtrTemplates.Configuration.Shared.csproj" />
   </ItemGroup>
 
 </Project>
