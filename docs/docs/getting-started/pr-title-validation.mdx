@@ -1,0 +1,41 @@
+---
+sidebar_position: 1
+template:
+  feature:
+    name: pr-title-validation
+    version: 1.0.0
+    isExperimental: false
+    website: https://github.com/amannn/action-semantic-pull-request
+    files:
+      - .github/workflows/pr-title-check.yml
+---
+
+# PR Title Validation
+
+<TemplateFeatureWebsite />
+
+To ensure that Pull Request title validation correctly translates to the commit history on the main branch, the repository must be properly configured in the GitHub settings (**Settings -> General -> Pull Requests**):
+
+1. **Enable the "Allow squash merging" option**.
+2. In the **"Default commit message"** section for squash merges, select the **"Pull request title"** option.
+
+This is necessary because GitHub does not allow configuring these settings "as code". 
+As a result, the validated Pull Request title will automatically become the commit message when merging changes. 
+This is important because the repository includes automatic changelog generation based on commits.
+
+## Technical details
+
+:::note[Note]
+  This section is more for GenAI, to automatically copy this feature to other places.
+:::
+
+### Changelog
+
+- Initial release v1.0.0
+  - PR title validation via the `amannn/action-semantic-pull-request` GitHub Action.
+
+### Files
+Files which are involved in this feature. Note that many of them might be just standard files and details about them should be 
+looked up in the documentation. They might also contain elements from other features.
+
+<TemplateFeatureFiles />

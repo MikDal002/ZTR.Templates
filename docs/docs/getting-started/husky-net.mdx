@@ -1,11 +1,44 @@
-
+---
+template:
+  feature:
+    name: husky-net
+    version: 1.0.0
+    isExperimental: false
+    website: https://github.com/alirezanet/husky.net
+    files:
+      - .husky/*
+      - Directory.Build.targets
+      - .config/dotnet-tools.json
+---
 # Husky.Net
+
+<TemplateFeatureWebsite />
 
 Husky.Net is used to manage Git hooks. 
 It currently handles pre-commit hooks for 'dotnet format'.
 Configuration can be found in the `.husky/pre-commit` and `task-runner.json` files.
 
-## Installation
+## Post-Clone Checklist
+
+- [x] None.
 
 The installation process is uniquely integrated via the `Directory.Build.targets` file.
 This has its disadvantages (such as a possible deadlock during the first setup), but also has the advantage that the installation is done automatically during the first build, so there is no need to do it manually.
+
+## Technical details
+
+:::note[Note]
+  This section is more for GenAI, to automatically copy this feature to other places.
+:::
+
+### Changelog
+
+- Initial release v1.0.0
+  - Automated Husky.net installation for all projects in the solution through Directory.Build.targets file.
+  - Pre-commit hook with `dotnet format`.
+
+### Files
+Files which are involved in this feature. Note that many of them might be just standard files and details about them should be 
+looked up in the documentation. They might also contain elements from other features.
+
+<TemplateFeatureFiles />
